@@ -1,0 +1,15 @@
+# Optimización de rutas de recolección de residuos
+
+Proyecto desarrollado en Python para la optimización de rutas de recolección de residuos utilizando grafos y mapas obtenidos desde OpenStreetMap.
+
+## Tecnologías utilizadas
+
+-pip install osmnx
+-pip install ortools
+-pip install folium
+-pip install geopandas
+-pip install flask
+-pip install python-telegram-bot
+-pip install matplotlib
+-pip install networkx
+-pip install numpy
