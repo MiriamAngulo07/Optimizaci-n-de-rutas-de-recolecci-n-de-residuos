@@ -1,5 +1,5 @@
 {
-  "zona": "Don Juan, Puerto Caimito, La Chorrera",
+  "zona": "Barriada Puerto Caimito, La Chorrera",
   "deposito": "Relleno Sanitario El Diamante",
   "coordenadas_deposito": [
     8.842671764429827,
@@ -7,22 +7,24 @@
   ],
   "num_camiones": 2,
   "capacidad_kg": 8000,
-  "total_puntos": 226,
-  "distancia_total_km": 1030.38,
+  "kg_por_casa": 5,
+  "total_paradas": 238,
+  "demanda_total_kg": 15775,
+  "distancia_total_km": 65.51,
   "rutas": [
     {
       "camion": 1,
-      "paradas": 0,
-      "distancia_km": 0.0,
-      "carga_kg": 0,
-      "utilizacion_pct": 0.0
+      "paradas": 92,
+      "distancia_km": 31.33,
+      "carga_kg": 7870,
+      "utilizacion_pct": 98.4
     },
     {
       "camion": 2,
-      "paradas": 226,
-      "distancia_km": 1030.38,
-      "carga_kg": 1215,
-      "utilizacion_pct": 15.2
+      "paradas": 146,
+      "distancia_km": 34.18,
+      "carga_kg": 7905,
+      "utilizacion_pct": 98.8
     }
   ]
 }

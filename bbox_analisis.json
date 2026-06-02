@@ -1,0 +1,17 @@
+{
+  "total_casas": 2158,
+  "bbox_sugerido_radio": {
+    "minlat": 8.863337211039306,
+    "maxlat": 8.882626250000708,
+    "minlon": -79.74053314094049,
+    "maxlon": -79.70783357292576
+  },
+  "bbox_percentil_90": {
+    "minlat": 8.86581824186013,
+    "maxlat": 8.875285947793895,
+    "minlon": -79.750182299836,
+    "maxlon": -79.7171836964553
+  },
+  "casas_en_zona_centro": 1970,
+  "casas_fuera": 188
+}
