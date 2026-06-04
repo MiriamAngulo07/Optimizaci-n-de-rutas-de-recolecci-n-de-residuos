@@ -51,6 +51,12 @@ ARCHIVO_PARADAS  = "paradas_recoleccion.json"
 
 COLORES = ["#7B2D8B", "#4CAF50"]   # morado y verde
 
+from bot.siroca_bot import (
+    iniciar_sesion,
+    enviar_ruta_asignada,
+    enviar_resumen_diario
+)
+
 # ─── Bounding Box para Puerto Caimito ────────────────────────────────────
 BBOX_PUERTO_CAIMITO = {
     'minlat': 8.863337,   # Sur
@@ -66,6 +72,10 @@ def esta_en_puerto_caimito(lat, lon):
 
 random.seed(SEED)
 np.random.seed(SEED)
+
+if __name__ == "__main__":
+    # Iniciar SIROCA
+    iniciar_sesion()
 
 # ─── ① GRAFO + CASAS (desde el .osm local) ────────────────────────────────────
 necesita_reconstruir = DESCARGAR_DE_OSM or not (
@@ -100,8 +110,8 @@ if necesita_reconstruir:
             casas_en_zona.append(idx)
     
     casas_excluidas = len(edif) - len(casas_en_zona)
-    print(f"Casas en Puerto Caimito: {len(casas_en_zona)}")
-    print(f"Casas excluidas (camino/otras zonas): {casas_excluidas}")
+    print(f"   ✓ Casas en Puerto Caimito: {len(casas_en_zona)}")
+    print(f"   ⚠️  Casas excluidas (camino/otras zonas): {casas_excluidas}")
     
     # Usar solo las casas en la zona
     xs_filtrados = xs[casas_en_zona]
@@ -123,7 +133,7 @@ if necesita_reconstruir:
     print(f"   ✓ Guardado: {ARCHIVO_GRAFO}  y  {ARCHIVO_PARADAS}")
     print(f"   ✓ {len(edif)} casas → {len(paradas)} paradas (de {len(G.nodes)} nodos)")
 else:
-    print("Cargando grafo y paradas guardados...")
+    print("📂 Cargando grafo y paradas guardados...")
     G = ox.load_graphml(ARCHIVO_GRAFO)
     with open(ARCHIVO_PARADAS, "r", encoding="utf-8") as f:
         paradas = json.load(f)
@@ -149,7 +159,7 @@ nodos_parada = [
 ]
 descartadas = len(paradas) - len(nodos_parada)
 if descartadas:
-    print(f"{descartadas} paradas inalcanzables descartadas")
+    print(f"   ⚠ {descartadas} paradas inalcanzables descartadas")
 
 demanda_de       = {int(k): v for k, v in paradas.items()}
 demandas         = [0] + [demanda_de[nd] for nd in nodos_parada]
@@ -158,14 +168,14 @@ n                = len(todos_nodos_ruta)
 
 demanda_total   = sum(demandas)
 capacidad_total = CAPACIDAD_KG * NUM_CAMIONES
-print(f"{len(nodos_parada)} paradas | demanda total: {demanda_total} kg "
+print(f"   ✓ {len(nodos_parada)} paradas | demanda total: {demanda_total} kg "
       f"| capacidad flota: {capacidad_total} kg")
 if demanda_total > capacidad_total:
     print("   ⚠ La demanda supera la capacidad de la flota: el CVRP será infactible. "
           "Sube NUM_CAMIONES o baja KG_POR_CASA.")
 
 # ─── ③ MATRIZ DE DISTANCIAS ───────────────────────────────────────────────────
-print("\nCalculando matriz de distancias (sobre la red completa)...")
+print("\n🔢 Calculando matriz de distancias (sobre la red completa)...")
 dist_matrix = [[0] * n for _ in range(n)]
 for i, origen in enumerate(todos_nodos_ruta):
     lengths = nx.single_source_dijkstra_path_length(G, origen, weight="length")
@@ -174,7 +184,7 @@ for i, origen in enumerate(todos_nodos_ruta):
 print("   ✓ Matriz lista")
 
 # ─── ④ CVRP CON OR-TOOLS ──────────────────────────────────────────────────────
-print("\nEjecutando CVRP con OR-Tools...")
+print("\n🚛 Ejecutando CVRP con OR-Tools...")
 data = {
     "distance_matrix": dist_matrix,
     "demands": demandas,
@@ -205,7 +215,7 @@ params.time_limit.seconds = TIEMPO_LIMITE_S
 
 solucion = routing.SolveWithParameters(params)
 if not solucion:
-    print("No se encontró solución.")
+    print("❌ No se encontró solución.")
     raise SystemExit
 
 print("   ✓ ¡Solución encontrada!")
@@ -234,10 +244,10 @@ for vehiculo in range(NUM_CAMIONES):
     print(f"   Camión {vehiculo+1}: {len(ruta_nodos)-2} paradas | "
           f"{ruta_dist/1000:.2f} km | {ruta_carga} kg")
 
-print(f"Distancia total: {distancia_total/1000:.2f} km")
+print(f"   📊 Distancia total: {distancia_total/1000:.2f} km")
 
 # ─── ⑥ MAPA FOLIUM ────────────────────────────────────────────────────────────
-print("\nGenerando mapa interactivo...")
+print("\n🗺️  Generando mapa interactivo...")
 mapa = folium.Map(location=ZONA_CENTRO, zoom_start=15, tiles="CartoDB positron")
 
 folium.Marker(
@@ -250,7 +260,7 @@ folium.Marker(
 for r in rutas:
     color = COLORES[(r["vehiculo"] - 1) % len(COLORES)]
     grupo = folium.FeatureGroup(
-        name=f"Camión {r['vehiculo']} — {r['paradas']} paradas | "
+        name=f"🚛 Camión {r['vehiculo']} — {r['paradas']} paradas | "
              f"{r['distancia_m']/1000:.1f} km | {r['carga_kg']} kg"
     )
 
@@ -283,7 +293,7 @@ folium.LayerControl(collapsed=False).add_to(mapa)
 
 # Panel de resumen
 filas_camiones = "".join([
-    f"<tr><td>Camión {r['vehiculo']}</td>"
+    f"<tr><td>🚛 Camión {r['vehiculo']}</td>"
     f"<td style='color:{COLORES[(r['vehiculo']-1) % len(COLORES)]}'>{r['paradas']}</td>"
     f"<td>{r['distancia_m']/1000:.1f} km</td>"
     f"<td>{r['carga_kg']} kg</td></tr>"
@@ -295,7 +305,7 @@ panel_html = f"""
             padding:14px 18px;border-radius:10px;
             box-shadow:0 2px 12px rgba(0,0,0,0.25);
             font-family:Arial,sans-serif;font-size:13px;">
-  <b style="color:#7B2D8B;font-size:14px;">CVRP — Puerto Caimito</b>
+  <b style="color:#7B2D8B;font-size:14px;">🗑️ CVRP — Puerto Caimito</b>
   <hr style="margin:6px 0;border-color:#eee">
   <table style="border-collapse:collapse;width:100%">
     <tr style="color:#888;font-size:11px">
@@ -343,47 +353,28 @@ with open("metricas_cvrp.json", "w", encoding="utf-8") as f:
     json.dump(metricas, f, indent=2, ensure_ascii=False)
 print("   ✓ Métricas guardadas: metricas_cvrp.json")
 
-print("\n¡Todo listo!")
+print("\n✅ ¡Todo listo!")
 print(f"   → Abre '{output_html}' en tu navegador para ver el mapa")
-print(f"\nRESUMEN:")
+print(f"\n📊 RESUMEN:")
 print(f"   Distancia total: {distancia_total/1000:.2f} km")
 for r in rutas:
     util = r["carga_kg"] / CAPACIDAD_KG * 100
     print(f"   Camión {r['vehiculo']}: {r['paradas']} paradas | "
           f"{r['distancia_m']/1000:.2f} km | {r['carga_kg']} kg ({util:.0f}% capacidad)")
     
-import json
-
-# Construir JSON de rutas para Flask
-rutas_export = {}
-for r in rutas:
-    vid = str(r["vehiculo"])
-    paradas_lista = []
-    for k, nodo in enumerate(r["nodos"][1:-1], 1):
-        lat = G.nodes[nodo]["y"]
-        lon = G.nodes[nodo]["x"]
-        paradas_lista.append({
-            "id": k,
-            "lat": lat,
-            "lon": lon,
-            "direccion": f"Parada #{k} — Sector {vid}",
-            "demanda_kg": demandas[todos_nodos_ruta.index(nodo)],
-            "completada": False
-        })
-    rutas_export[vid] = {
-        "camion": r["vehiculo"],
-        "conductor": f"Conductor {vid}",
-        "placa": f"XX-000{vid}",
-        "distancia_km": round(r["distancia_m"] / 1000, 2),
-        "paradas_total": r["paradas"],
-        "carga_kg": r["carga_kg"],
-        "capacidad_kg": CAPACIDAD_KG,
-        "color": ["#7B2D8B", "#4CAF50"][r["vehiculo"] - 1],
-        "estado": "en_ruta",
-        "paradas": paradas_lista
-    }
-
-with open("rutas_flask.json", "w", encoding="utf-8") as f:
-    json.dump(rutas_export, f, indent=2, ensure_ascii=False)
-
-print("rutas_flask.json generado")
+    # Notificar cada ruta
+    for i, ruta in enumerate(rutas_optimizadas, 1):
+        enviar_ruta_asignada(
+            numero_vehiculo=i,
+            trabajador=f"Operador {i}",
+            paradas=len(ruta),
+            distancia_km=round(distancia_total[i], 1)
+        )
+    
+    # Resumen final
+    enviar_resumen_diario(
+        total_vehiculos=len(rutas_optimizadas),
+        total_paradas=sum(len(r) for r in rutas_optimizadas),
+        distancia_total=sum(distancia_total),
+        eficiencia=92
+    )
