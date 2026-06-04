@@ -9,11 +9,10 @@
 
 </head>
 <body>
-
 <header>
   <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Larana" onerror="this.style.display='none'">
   <div>
-    <h1>SIROCA</h1>
+    <h1>Sistema de Recolección</h1>
     <p>Puerto Caimito, La Chorrera</p>
   </div>
   <div class="header-right">
@@ -22,13 +21,13 @@
     <a href="/dashboard" class="nav-btn">Dashboard</a>
   </div>
 </header>
-
+ 
 <main>
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('rutas')">Rutas activas</button>
     <button class="tab-btn" onclick="switchTab('cvrp')">Generar CVRP</button>
   </div>
-
+ 
   <!-- ══ TAB: RUTAS ACTIVAS ══ -->
   <div id="tab-rutas" class="tab-panel active">
     {% if rutas %}
@@ -61,7 +60,7 @@
             </div>
           </div>
           {% set completadas = ruta.paradas | selectattr('completada') | list | length %}
-          {% set pct = (completadas / ruta.paradas_total * 100) | round | int %}
+          {% set pct = ((completadas / ruta.paradas_total * 100) if ruta.paradas_total > 0 else 0) | round | int %}
           <div class="progress-wrap">
             <div class="progress-label">
               <span>Progreso de ruta</span>
@@ -75,9 +74,9 @@
         </div>
         {% endfor %}
       </div>
-
+ 
       <div class="resumen">
-        <h3>Resumen de la jornada</h3>
+        <h3>// resumen_jornada — datos estimados CVRP</h3>
         <div class="resumen-grid">
           <div class="res-item">
             <div class="res-val">{{ rutas.values() | sum(attribute='paradas_total') }}</div>
@@ -97,7 +96,7 @@
           </div>
         </div>
       </div>
-
+ 
     {% else %}
       <div class="empty-state">
         <div class="empty-icon">🗂️</div>
@@ -106,13 +105,13 @@
       </div>
     {% endif %}
   </div><!-- /tab-rutas -->
-
+ 
   <!-- ══ TAB: GENERAR CVRP ══ -->
   <div id="tab-cvrp" class="tab-panel">
     <p class="titulo-seccion">Configuración del modelo CVRP</p>
     <form id="form-cvrp" onsubmit="return false;">
       <div class="form-layout">
-
+ 
         <!-- SECCIÓN: Archivos y zona -->
         <div class="form-section">
           <h3>// parametros_flota</h3>
@@ -138,16 +137,16 @@
             </button>
           </div>
         </div>
-
+ 
         <!-- columna vacía para mantener el grid de 2 col -->
         <div></div>
-
+ 
         <!-- PROGRESS / ESTADO -->
         <div class="gen-progress" id="gen-progress">
           <div class="spinner"></div>
           <div class="gen-stage" id="gen-stage">Iniciando generación de rutas…</div>
         </div>
-
+ 
         <!-- TERMINAL LOG -->
         <div class="terminal-wrap" id="terminal-wrap" style="display:none;">
           <div class="terminal-header">
@@ -158,16 +157,16 @@
           </div>
           <div class="terminal-body" id="terminal-body"></div>
         </div>
-
+ 
         <!-- RESULTADO -->
         <div id="resultado-wrap">
           <div class="resultado-header">
             <span style="font-size:15px; font-weight:600;">Resultado del CVRP</span>
             <span class="resultado-badge" id="resultado-badge">✓ Solución encontrada</span>
           </div>
-
+ 
           <div class="resultado-cards" id="resultado-cards"></div>
-
+ 
           <div class="json-viewer">
             <div class="json-viewer-header">
               <span class="json-viewer-title">rutas_flask.json — preview</span>
@@ -175,18 +174,18 @@
             </div>
             <div class="json-body" id="json-body"></div>
           </div>
-
+ 
           <button class="btn-aplicar" onclick="aplicarRutas()">
             ✓ Aplicar rutas y recargar dashboard
           </button>
         </div>
-
+ 
       </div><!-- /form-layout -->
     </form>
   </div><!-- /tab-cvrp -->
-
+ 
 </main>
-
+ 
 <script>
   // ── Fecha/hora ──────────────────────────────────────────
   function actualizarFecha() {
@@ -196,7 +195,7 @@
   }
   actualizarFecha();
   setInterval(actualizarFecha, 60000);
-
+ 
   // ── Tabs ─────────────────────────────────────────────────
   function switchTab(name) {
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
@@ -204,7 +203,7 @@
     document.getElementById("tab-" + name).classList.add("active");
     document.querySelectorAll(".tab-btn")[name === "rutas" ? 0 : 1].classList.add("active");
   }
-
+ 
   // ── Leer formulario ──────────────────────────────────────
   function leerFormulario() {
     const f = document.getElementById("form-cvrp");
@@ -215,7 +214,7 @@
     });
     return data;
   }
-
+ 
   // ── Terminal log ─────────────────────────────────────────
   let termLines = [];
   function logTerm(txt, tipo = "") {
@@ -240,7 +239,7 @@
   function limpiarTerminal() {
     document.getElementById("terminal-body").innerHTML = "";
   }
-
+ 
   // ── Highlight JSON ────────────────────────────────────────
   function highlightJSON(obj) {
     const str = JSON.stringify(obj, null, 2);
@@ -250,7 +249,7 @@
       .replace(/:\s*(\d+\.?\d*)/g, ': <span class="json-num">$1</span>')
       .replace(/:\s*(true|false|null)/g, ': <span class="json-bool">$1</span>');
   }
-
+ 
   // ── Ejecutar CVRP ────────────────────────────────────────
   async function ejecutarCVRP() {
     const btn = document.getElementById("btn-generar");
@@ -258,13 +257,13 @@
     const stage = document.getElementById("gen-stage");
     const termWrap = document.getElementById("terminal-wrap");
     const resWrap = document.getElementById("resultado-wrap");
-
+ 
     btn.disabled = true;
     progress.classList.add("visible");
     termWrap.style.display = "none";
     resWrap.style.display = "none";
     limpiarTerminal();
-
+ 
     const etapas = [
       "Leyendo archivo .osm y extrayendo casas…",
       "Construyendo grafo de red vial…",
@@ -276,7 +275,7 @@
     const etapaInterval = setInterval(() => {
       if (ei < etapas.length) { stage.textContent = etapas[ei++]; }
     }, 4000);
-
+ 
     try {
       const payload = leerFormulario();
       const resp = await fetch("/api/generar-cvrp", {
@@ -284,13 +283,13 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-
+ 
       clearInterval(etapaInterval);
       progress.classList.remove("visible");
       termWrap.style.display = "block";
-
+ 
       const data = await resp.json();
-
+ 
       if (!resp.ok || !data.ok) {
         logTerm("── ERROR ──────────────────────────────", "log-line-err");
         logTerm(data.error || "Error desconocido", "log-line-err");
@@ -301,7 +300,7 @@
         logTerm("✓ Rutas generadas exitosamente.", "log-line-ok");
         mostrarResultado(data.rutas, data.resumen);
       }
-
+ 
     } catch (err) {
       clearInterval(etapaInterval);
       progress.classList.remove("visible");
@@ -311,15 +310,41 @@
       btn.disabled = false;
     }
   }
-
+ 
   // ── Mostrar resultado ────────────────────────────────────
   const COLORES_CAMION = ["#b085f5", "#4CAF50", "#f0a952", "#55c595", "#e05c5c", "#58a6e8"];
-
+ 
   function mostrarResultado(rutas, resumen) {
     const wrap = document.getElementById("resultado-wrap");
     const cards = document.getElementById("resultado-cards");
     const jsonBody = document.getElementById("json-body");
-
+ 
+    // ── Detectar camiones vacíos ─────────────────────────
+    const total = Object.keys(resumen || {}).length;
+    const vacios = Object.values(resumen || {}).filter(r => r.paradas === 0).length;
+    const optimo = total - vacios;
+ 
+    // Insertar o limpiar aviso
+    let avisoEl = document.getElementById("aviso-eficiencia");
+    if (vacios > 0) {
+      if (!avisoEl) {
+        avisoEl = document.createElement("div");
+        avisoEl.id = "aviso-eficiencia";
+        avisoEl.className = "aviso-eficiencia";
+        wrap.insertBefore(avisoEl, wrap.firstChild);
+      }
+      avisoEl.innerHTML = `
+        <div class="aviso-icono">⚠</div>
+        <div class="aviso-texto">
+          <strong>${vacios} camión${vacios > 1 ? "es" : ""} sin paradas asignadas</strong>
+          — la demanda de esta zona no requiere ${total} vehículos.
+          <p>La flota óptima para esta área es de <strong>${optimo} camión${optimo > 1 ? "es" : ""}</strong>.
+          Vuelve a generar el CVRP con ese número para obtener rutas más eficientes.</p>
+        </div>`;
+    } else if (avisoEl) {
+      avisoEl.remove();
+    }
+ 
     // cards por camión
     cards.innerHTML = "";
     Object.entries(resumen || {}).forEach(([vid, r], i) => {
@@ -334,7 +359,7 @@
           </div>
         </div>`;
     });
-
+ 
     // JSON highlight (preview reducido)
     const preview = {};
     Object.entries(rutas).forEach(([k, v]) => {
@@ -346,12 +371,12 @@
       };
     });
     jsonBody.innerHTML = highlightJSON(preview);
-
+ 
     // guardar para copiar
     wrap._rutasCompletas = rutas;
     wrap.style.display = "block";
   }
-
+ 
   // ── Copiar JSON ───────────────────────────────────────────
   function copiarJSON() {
     const wrap = document.getElementById("resultado-wrap");
@@ -362,7 +387,7 @@
       setTimeout(() => btn.textContent = "Copiar JSON", 2000);
     });
   }
-
+ 
   // ── Aplicar rutas → recargar pestaña rutas ───────────────
   function aplicarRutas() {
     switchTab("rutas");

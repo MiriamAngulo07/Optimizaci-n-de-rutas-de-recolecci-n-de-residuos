@@ -802,3 +802,30 @@ main {
 
 .btn-waze  { background: #1ABCFE; color: #111; }
 .btn-gmaps { background: #4285F4; color: white; }
+
+/* ─── EMPTY STATE ────────────────────────────────────── */
+    .empty-state {
+      text-align: center; padding: 56px 24px;
+      color: var(--c-muted); font-size: 13px;
+    }
+    .empty-state .empty-icon {
+      font-size: 32px; margin-bottom: 12px; opacity: .5;
+    }
+    .empty-state p { line-height: 1.7; }
+    .empty-link { color: var(--c-accent); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+    /* ─── AVISO CAMIONES VACÍOS ─────────────────────────── */
+    .aviso-eficiencia {
+      grid-column: 1 / -1;
+      display: flex; align-items: flex-start; gap: 14px;
+      background: rgba(240,169,82,.08);
+      border: 1px solid rgba(240,169,82,.35);
+      border-radius: var(--r-lg);
+      padding: 16px 20px;
+      margin-bottom: 4px;
+    }
+    .aviso-icono {
+      font-size: 20px; flex-shrink: 0; margin-top: 1px;
+    }
+    .aviso-texto { font-size: 13px; line-height: 1.6; }
+    .aviso-texto strong { color: var(--c-warn); font-weight: 600; }
+    .aviso-texto p { color: var(--c-muted); margin-top: 4px; font-size: 12px; }
