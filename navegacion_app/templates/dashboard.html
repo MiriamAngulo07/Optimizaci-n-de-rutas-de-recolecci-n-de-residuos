@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Operador — Puerto Caimito</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+  <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+  <div>
+    <h1>Dashboard Operador</h1>
+    <p>Puerto Caimito, La Chorrera</p>
+  </div>
+  <div class="header-right">
+    <div class="live-badge"><div class="live-dot"></div> EN VIVO</div>
+    <div class="hora" id="hora">--:--</div>
+    <a href="/" class="nav-btn">Ver camiones</a>
+  </div>
+</header>
+
+<main>
+
+ <!-- KPIs -->
+<p class="seccion-label">Indicadores de jornada</p>
+<div class="kpis">
+  <div class="kpi k-purple">
+    <div class="kpi-icon">P</div>
+    <div class="kpi-val" id="kpi-total">{{ rutas.values() | sum(attribute='paradas_total') }}</div>
+    <div class="kpi-lbl">Paradas planificadas</div>
+  </div>
+  <div class="kpi k-green">
+    <div class="kpi-icon">C</div>
+    <div class="kpi-val" id="kpi-comp">0</div>
+    <div class="kpi-lbl">Completadas</div>
+  </div>
+  <div class="kpi k-blue">
+    <div class="kpi-icon">KM</div>
+    <div class="kpi-val">{{ (rutas.values() | sum(attribute='distancia_km')) | round(1) }}</div>
+    <div class="kpi-lbl">km planificados</div>
+  </div>
+  <div class="kpi k-orange">
+    <div class="kpi-icon">KG</div>
+    <div class="kpi-val">{{ rutas.values() | sum(attribute='carga_kg') }}</div>
+    <div class="kpi-lbl">kg estimados</div>
+  </div>
+  <div class="kpi k-teal">
+    <div class="kpi-icon">%</div>
+    <div class="kpi-val" id="kpi-cob">0%</div>
+    <div class="kpi-lbl">Cobertura</div>
+  </div>
+</div>
+  <!-- PROGRESO + GRÁFICA BARRAS -->
+  <div class="grid-main">
+
+  <!-- Progreso en tiempo real -->
+  <div class="card">
+    <div class="card-title">Progreso de rutas <span>actualizado cada 30s</span></div>
+
+    {% for id, ruta in rutas.items() %}
+    <div class="camion-prog">
+      <div class="camion-header">
+        <div class="camion-dot {% if loop.first %}c-teal{% else %}c-sage{% endif %}"></div>
+        <div class="camion-nombre">Camión {{ ruta.camion }} — {{ ruta.conductor }}</div>
+      </div>
+      <div class="prog-bar-wrap">
+        <div class="prog-bar">
+          <div class="prog-fill {% if loop.first %}teal{% else %}sage{% endif %}"
+               id="fill-c{{ id }}" style="--fill-width: 0%"></div>
+        </div>
+        <div class="prog-pct" id="pct-c{{ id }}">0%</div>
+      </div>
+      <div class="camion-stats">
+        <div class="cs">Paradas: <b><span id="comp-c{{ id }}">0</span>/{{ ruta.paradas_total }}</b></div>
+        <div class="cs">Distancia: <b>{{ ruta.distancia_km }} km</b></div>
+        <div class="cs">Carga est.: <b>{{ ruta.carga_kg }} kg</b></div>
+        <div class="cs">Estado: <b class="status-{{ ruta.estado }}">
+          {% if ruta.estado == 'en_ruta' %}En ruta{% else %}En depósito{% endif %}
+        </b></div>
+      </div>
+    </div>
+    {% if not loop.last %}<div class="sep"></div>{% endif %}
+    {% endfor %}
+
+    <div class="sep"></div>
+    <div class="route-info">Cobertura combinada</div>
+    <div class="prog-bar-wrap">
+      <div class="prog-bar tall">
+        <div class="prog-fill gradient" id="fill-total" style="--fill-width: 0%"></div>
+      </div>
+      <div class="prog-pct" id="pct-total">0%</div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- GRÁFICA DONUT + TABLA -->
+  <div class="grid-bottom">
+    
+  <!-- Gráfica distancia vs carga -->
+  <div class="card">
+    <div class="card-title">Distancia y carga por camión</div>
+    <div class="chart-wrap">
+      <canvas id="chartBarras"></canvas>
+    </div>
+  </div>
+    <!-- Donut cobertura -->
+    <div class="card">
+      <div class="card-title">Distribución de paradas</div>
+      <div class="chart-wrap">
+        <canvas id="chartDonut"></canvas>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── RELOJ ──────────────────────────────────────────────────────────────────
+function tick() {
+  const ahora = new Date();
+  document.getElementById("hora").textContent =
+    ahora.toLocaleTimeString("es-PA", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+}
+tick();
+setInterval(tick, 1000);
+
+// ── GRÁFICA BARRAS ─────────────────────────────────────────────────────────
+const ctxBar = document.getElementById("chartBarras").getContext("2d");
+new Chart(ctxBar, {
+type: "bar",
+data: {
+labels: [{% for id, ruta in rutas.items() %}"Camión {{ ruta.camion }}"{% if not loop.last %},{% endif %}{% endfor %}],
+datasets: [
+  {
+    label: "Distancia (km)",
+    data: [{% for id, ruta in rutas.items() %}{{ ruta.distancia_km }}{% if not loop.last %},{% endif %}{% endfor %}],
+    backgroundColor: ["rgba(0,95,2,0.7)", "rgba(66,122,67,0.7)"],
+    borderColor:     ["#005F02", "#427A43"],
+    borderWidth: 2,
+    borderRadius: 8,
+    yAxisID: "y"
+  },
+  {
+    label: "Carga (t)",
+    data: [{% for id, ruta in rutas.items() %}{{ (ruta.carga_kg / 1000) | round(1) }}{% if not loop.last %},{% endif %}{% endfor %}],
+    backgroundColor: ["rgba(0,95,2,0.2)", "rgba(66,122,67,0.2)"],
+    borderColor:     ["#005F02", "#427A43"],
+    borderWidth: 2,
+    borderRadius: 8,
+    yAxisID: "y2"
+  }
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+  legend: { labels: { color: "#7a9080", font: { family: "Space Grotesk", size: 12 } } }
+},
+scales: {
+  x:  { ticks: { color: "#7a9080" }, grid: { color: "#d4dfc8" } },
+  y:  { ticks: { color: "#7a9080" }, grid: { color: "#d4dfc8" }, title: { display: true, text: "km",        color: "#7a9080" } },
+  y2: { position: "right", ticks: { color: "#7a9080" }, grid: { display: false }, title: { display: true, text: "toneladas", color: "#7a9080" } }
+}
+}
+});
+
+// ── GRÁFICA DONUT ──────────────────────────────────────────────────────────
+const totalParadas = {{ rutas.values() | sum(attribute='paradas_total') }};
+const pendientes   = totalParadas; // se actualiza en tiempo real
+
+const ctxDonut = document.getElementById("chartDonut").getContext("2d");
+const donutChart = new Chart(ctxDonut, {
+  type: "doughnut",
+  data: {
+    labels: [
+      "Completadas",
+      {% for id, ruta in rutas.items() %}"Pendientes C{{ ruta.camion }}"{% if not loop.last %},{% endif %}{% endfor %}
+    ],
+    datasets: [{
+      data: [
+        0,
+        {% for id, ruta in rutas.items() %}{{ ruta.paradas_total }}{% if not loop.last %},{% endif %}{% endfor %}
+      ],
+      backgroundColor: ["#427A43", {% for id, ruta in rutas.items() %}"{% if loop.first %}#005F02{% else %}#c2d099{% endif %}"{% if not loop.last %},{% endif %}{% endfor %}],
+      borderColor:     ["#427A43", {% for id, ruta in rutas.items() %}"{% if loop.first %}#005F02{% else %}#c2d099{% endif %}"{% if not loop.last %},{% endif %}{% endfor %}],
+      borderWidth: 2,
+      hoverOffset: 6,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: "68%",
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: { color: "#7a9080", font: { family: "Space Grotesk", size: 12 }, padding: 16 }
+      }
+    }
+  }
+});
+
+// ── ACTUALIZACIÓN EN TIEMPO REAL ───────────────────────────────────────────
+const IDS_CAMIONES = [{% for id in rutas.keys() %}"{{ id }}"{% if not loop.last %},{% endif %}{% endfor %}];
+
+function actualizarDatos() {
+  Promise.all(
+    IDS_CAMIONES.map(id => fetch(`/api/ruta/${id}`).then(r => r.json()))
+  ).then(rutas => {
+    let compTotal  = 0;
+    let grandTotal = 0;
+    const pendPorCamion = [];
+
+    rutas.forEach((ruta, i) => {
+      const id       = IDS_CAMIONES[i];
+      const comp     = ruta.paradas.filter(p => p.completada).length;
+      const total    = ruta.paradas.length;
+      const pct      = Math.round(comp / total * 100);
+
+      compTotal  += comp;
+      grandTotal += total;
+      pendPorCamion.push(total - comp);
+
+      // Barras de progreso
+      const fillEl = document.getElementById(`fill-c${id}`);
+      const pctEl  = document.getElementById(`pct-c${id}`);
+      const compEl = document.getElementById(`comp-c${id}`);
+      const tabEl  = document.getElementById(`tab-c${id}`);
+
+      if (fillEl) fillEl.style.width  = pct + "%";
+      if (pctEl)  pctEl.textContent   = pct + "%";
+      if (compEl) compEl.textContent  = comp;
+      if (tabEl)  tabEl.textContent   = comp;
+    });
+
+    const pctTotal = Math.round(compTotal / grandTotal * 100);
+
+    // KPIs
+    document.getElementById("kpi-comp").textContent  = compTotal;
+    document.getElementById("kpi-cob").textContent   = pctTotal + "%";
+
+    // Barra combinada
+    document.getElementById("fill-total").style.width = pctTotal + "%";
+    document.getElementById("pct-total").textContent  = pctTotal + "%";
+    document.getElementById("tab-total").textContent  = compTotal;
+
+    // Donut
+    donutChart.data.datasets[0].data = [compTotal, ...pendPorCamion];
+    donutChart.update();
+
+  }).catch(() => {});
+}
+
+actualizarDatos();
+setInterval(actualizarDatos, 30000);
+</script>
+
+</body>
+</html>

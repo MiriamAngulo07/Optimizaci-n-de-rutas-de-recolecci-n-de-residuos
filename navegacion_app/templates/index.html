@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Recolección — Puerto Caimito</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+<header>
+  <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Larana" onerror="this.style.display='none'">
+  <div>
+    <h1>SIROCA</h1>
+    <p>Puerto Caimito, La Chorrera</p>
+  </div>
+  <div class="header-right">
+    <div class="live-badge"><div class="live-dot"></div> EN VIVO</div>
+    <div class="fecha" id="fecha"></div>
+    <a href="/dashboard" class="nav-btn">Dashboard</a>
+  </div>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('rutas')">Rutas activas</button>
+    <button class="tab-btn" onclick="switchTab('cvrp')">Generar CVRP</button>
+  </div>
+
+  <!-- ══ TAB: RUTAS ACTIVAS ══ -->
+  <div id="tab-rutas" class="tab-panel active">
+    {% if rutas %}
+      <p class="titulo-seccion">Camiones en operación hoy</p>
+      <div class="grid">
+        {% for id, ruta in rutas.items() %}
+        <div class="card c{{ id }}">
+          <div class="card-header">
+            <div class="camion-icon">{{ ruta.camion }}</div>
+            <div class="camion-info">
+              <h2>Camión {{ ruta.camion }}</h2>
+              <p>{{ ruta.conductor }}</p>
+            </div>
+            <span class="badge {% if ruta.estado == 'en_ruta' %}badge-ruta{% else %}badge-dep{% endif %}">
+              {% if ruta.estado == 'en_ruta' %}En ruta{% else %}En depósito{% endif %}
+            </span>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-val">{{ ruta.paradas_total }}</div>
+              <div class="stat-lbl">Paradas</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">{{ ruta.distancia_km }}</div>
+              <div class="stat-lbl">km totales</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">{{ ruta.carga_kg }}</div>
+              <div class="stat-lbl">kg est.</div>
+            </div>
+          </div>
+          {% set completadas = ruta.paradas | selectattr('completada') | list | length %}
+          {% set pct = (completadas / ruta.paradas_total * 100) | round | int %}
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>Progreso de ruta</span>
+              <span>{{ completadas }}/{{ ruta.paradas_total }} paradas</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="--fill-width: {{ pct }}%"></div>
+            </div>
+          </div>
+          <a href="/camion/{{ id }}" class="btn btn-c{{ id }}">Abrir Navegación</a>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="resumen">
+        <h3>Resumen de la jornada</h3>
+        <div class="resumen-grid">
+          <div class="res-item">
+            <div class="res-val">{{ rutas.values() | sum(attribute='paradas_total') }}</div>
+            <div class="res-lbl">Paradas planificadas</div>
+          </div>
+          <div class="res-item">
+            <div class="res-val">{{ (rutas.values() | sum(attribute='distancia_km')) | round(1) }}</div>
+            <div class="res-lbl">km planificados</div>
+          </div>
+          <div class="res-item">
+            <div class="res-val">{{ rutas.values() | sum(attribute='carga_kg') }}</div>
+            <div class="res-lbl">kg estimados</div>
+          </div>
+          <div class="res-item">
+            <div class="res-val">{{ rutas | length }}</div>
+            <div class="res-lbl">Rutas generadas</div>
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">🗂️</div>
+        <p>No hay rutas activas.<br>
+        Ve a <span class="empty-link" onclick="switchTab('cvrp')">Generar CVRP</span> para crear las rutas de hoy.</p>
+      </div>
+    {% endif %}
+  </div><!-- /tab-rutas -->
+
+  <!-- ══ TAB: GENERAR CVRP ══ -->
+  <div id="tab-cvrp" class="tab-panel">
+    <p class="titulo-seccion">Configuración del modelo CVRP</p>
+    <form id="form-cvrp" onsubmit="return false;">
+      <div class="form-layout">
+
+        <!-- SECCIÓN: Archivos y zona -->
+        <div class="form-section">
+          <h3>// parametros_flota</h3>
+          <div class="form-row">
+            <label>número de camiones</label>
+            <input type="number" name="num_camiones" value="2" min="1" max="20" step="1">
+          </div>
+          <div class="form-row">
+            <label>capacidad por camión (kg)</label>
+            <input type="number" name="capacidad_kg" value="8000" min="100" step="100">
+          </div>
+          <div class="form-row">
+            <label>kg de basura estimados por casa</label>
+            <input type="number" name="kg_por_casa" value="5" min="1" step="1">
+          </div>
+          <div class="form-row">
+            <label>tiempo límite del solver OR-Tools (segundos)</label>
+            <input type="number" name="tiempo_limite" value="30" min="5" max="300" step="5">
+          </div>
+          <div class="form-row" style="margin-top: 28px;">
+            <button type="button" class="btn-generar" id="btn-generar" onclick="ejecutarCVRP()">
+              Generar rutas óptimas →
+            </button>
+          </div>
+        </div>
+
+        <!-- columna vacía para mantener el grid de 2 col -->
+        <div></div>
+
+        <!-- PROGRESS / ESTADO -->
+        <div class="gen-progress" id="gen-progress">
+          <div class="spinner"></div>
+          <div class="gen-stage" id="gen-stage">Iniciando generación de rutas…</div>
+        </div>
+
+        <!-- TERMINAL LOG -->
+        <div class="terminal-wrap" id="terminal-wrap" style="display:none;">
+          <div class="terminal-header">
+            <div class="t-dot td1"></div>
+            <div class="t-dot td2"></div>
+            <div class="t-dot td3"></div>
+            <div class="terminal-title">cvrp_solver.py — stdout</div>
+          </div>
+          <div class="terminal-body" id="terminal-body"></div>
+        </div>
+
+        <!-- RESULTADO -->
+        <div id="resultado-wrap">
+          <div class="resultado-header">
+            <span style="font-size:15px; font-weight:600;">Resultado del CVRP</span>
+            <span class="resultado-badge" id="resultado-badge">✓ Solución encontrada</span>
+          </div>
+
+          <div class="resultado-cards" id="resultado-cards"></div>
+
+          <div class="json-viewer">
+            <div class="json-viewer-header">
+              <span class="json-viewer-title">rutas_flask.json — preview</span>
+              <button class="btn-copy" onclick="copiarJSON()">Copiar JSON</button>
+            </div>
+            <div class="json-body" id="json-body"></div>
+          </div>
+
+          <button class="btn-aplicar" onclick="aplicarRutas()">
+            ✓ Aplicar rutas y recargar dashboard
+          </button>
+        </div>
+
+      </div><!-- /form-layout -->
+    </form>
+  </div><!-- /tab-cvrp -->
+
+</main>
+
+<script>
+  // ── Fecha/hora ──────────────────────────────────────────
+  function actualizarFecha() {
+    document.getElementById("fecha").textContent =
+      new Date().toLocaleDateString("es-PA", {weekday:"short", day:"numeric", month:"short"}) +
+      " · " + new Date().toLocaleTimeString("es-PA", {hour:"2-digit", minute:"2-digit"});
+  }
+  actualizarFecha();
+  setInterval(actualizarFecha, 60000);
+
+  // ── Tabs ─────────────────────────────────────────────────
+  function switchTab(name) {
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById("tab-" + name).classList.add("active");
+    document.querySelectorAll(".tab-btn")[name === "rutas" ? 0 : 1].classList.add("active");
+  }
+
+  // ── Leer formulario ──────────────────────────────────────
+  function leerFormulario() {
+    const f = document.getElementById("form-cvrp");
+    const data = {};
+    f.querySelectorAll("input[name], select[name]").forEach(el => {
+      const v = el.value.trim();
+      data[el.name] = isNaN(v) || v === "" ? v : Number(v);
+    });
+    return data;
+  }
+
+  // ── Terminal log ─────────────────────────────────────────
+  let termLines = [];
+  function logTerm(txt, tipo = "") {
+    const body = document.getElementById("terminal-body");
+    const lines = txt.split("\n");
+    lines.forEach(line => {
+      if (!line) return;
+      const span = document.createElement("span");
+      span.className = tipo || clasificarLinea(line);
+      span.textContent = line + "\n";
+      body.appendChild(span);
+    });
+    body.scrollTop = body.scrollHeight;
+  }
+  function clasificarLinea(line) {
+    if (/error|traceback|exception/i.test(line)) return "log-line-err";
+    if (/✓|ok|listo|solución|json guardado/i.test(line)) return "log-line-ok";
+    if (/leyendo|calculando|ejecutando|generando/i.test(line)) return "log-line-info";
+    if (/⚠|advertencia|warn/i.test(line)) return "log-line-warn";
+    return "";
+  }
+  function limpiarTerminal() {
+    document.getElementById("terminal-body").innerHTML = "";
+  }
+
+  // ── Highlight JSON ────────────────────────────────────────
+  function highlightJSON(obj) {
+    const str = JSON.stringify(obj, null, 2);
+    return str
+      .replace(/("[\w_]+")(\s*:)/g, '<span class="json-key">$1</span>$2')
+      .replace(/:\s*(".*?")/g, ': <span class="json-str">$1</span>')
+      .replace(/:\s*(\d+\.?\d*)/g, ': <span class="json-num">$1</span>')
+      .replace(/:\s*(true|false|null)/g, ': <span class="json-bool">$1</span>');
+  }
+
+  // ── Ejecutar CVRP ────────────────────────────────────────
+  async function ejecutarCVRP() {
+    const btn = document.getElementById("btn-generar");
+    const progress = document.getElementById("gen-progress");
+    const stage = document.getElementById("gen-stage");
+    const termWrap = document.getElementById("terminal-wrap");
+    const resWrap = document.getElementById("resultado-wrap");
+
+    btn.disabled = true;
+    progress.classList.add("visible");
+    termWrap.style.display = "none";
+    resWrap.style.display = "none";
+    limpiarTerminal();
+
+    const etapas = [
+      "Leyendo archivo .osm y extrayendo casas…",
+      "Construyendo grafo de red vial…",
+      "Calculando matriz de distancias…",
+      "Ejecutando solver OR-Tools (CVRP)…",
+      "Generando rutas y exportando JSON…"
+    ];
+    let ei = 0;
+    const etapaInterval = setInterval(() => {
+      if (ei < etapas.length) { stage.textContent = etapas[ei++]; }
+    }, 4000);
+
+    try {
+      const payload = leerFormulario();
+      const resp = await fetch("/api/generar-cvrp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      clearInterval(etapaInterval);
+      progress.classList.remove("visible");
+      termWrap.style.display = "block";
+
+      const data = await resp.json();
+
+      if (!resp.ok || !data.ok) {
+        logTerm("── ERROR ──────────────────────────────", "log-line-err");
+        logTerm(data.error || "Error desconocido", "log-line-err");
+        if (data.detalle) logTerm(data.detalle, "log-line-err");
+        if (data.stdout)  logTerm(data.stdout);
+      } else {
+        if (data.log) logTerm(data.log);
+        logTerm("✓ Rutas generadas exitosamente.", "log-line-ok");
+        mostrarResultado(data.rutas, data.resumen);
+      }
+
+    } catch (err) {
+      clearInterval(etapaInterval);
+      progress.classList.remove("visible");
+      termWrap.style.display = "block";
+      logTerm("Error de red: " + err.message, "log-line-err");
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // ── Mostrar resultado ────────────────────────────────────
+  const COLORES_CAMION = ["#b085f5", "#4CAF50", "#f0a952", "#55c595", "#e05c5c", "#58a6e8"];
+
+  function mostrarResultado(rutas, resumen) {
+    const wrap = document.getElementById("resultado-wrap");
+    const cards = document.getElementById("resultado-cards");
+    const jsonBody = document.getElementById("json-body");
+
+    // cards por camión
+    cards.innerHTML = "";
+    Object.entries(resumen || {}).forEach(([vid, r], i) => {
+      const color = COLORES_CAMION[i % COLORES_CAMION.length];
+      cards.innerHTML += `
+        <div class="res-card">
+          <div class="res-card-label">Camión ${vid}</div>
+          <div class="res-camion-stats">
+            <div><span>Paradas: </span>${r.paradas}</div>
+            <div><span>Distancia: </span>${r.distancia_km} km</div>
+            <div><span>Carga: </span>${r.carga_kg} kg</div>
+          </div>
+        </div>`;
+    });
+
+    // JSON highlight (preview reducido)
+    const preview = {};
+    Object.entries(rutas).forEach(([k, v]) => {
+      preview[k] = {
+        camion: v.camion, conductor: v.conductor,
+        distancia_km: v.distancia_km, paradas_total: v.paradas_total,
+        carga_kg: v.carga_kg, capacidad_kg: v.capacidad_kg,
+        estado: v.estado, paradas: `[ …${(v.paradas||[]).length} paradas… ]`
+      };
+    });
+    jsonBody.innerHTML = highlightJSON(preview);
+
+    // guardar para copiar
+    wrap._rutasCompletas = rutas;
+    wrap.style.display = "block";
+  }
+
+  // ── Copiar JSON ───────────────────────────────────────────
+  function copiarJSON() {
+    const wrap = document.getElementById("resultado-wrap");
+    const txt = JSON.stringify(wrap._rutasCompletas || {}, null, 2);
+    navigator.clipboard.writeText(txt).then(() => {
+      const btn = document.querySelector(".btn-copy");
+      btn.textContent = "¡Copiado!";
+      setTimeout(() => btn.textContent = "Copiar JSON", 2000);
+    });
+  }
+
+  // ── Aplicar rutas → recargar pestaña rutas ───────────────
+  function aplicarRutas() {
+    switchTab("rutas");
+    window.location.reload();
+  }
+</script>
+</body>
+</html>

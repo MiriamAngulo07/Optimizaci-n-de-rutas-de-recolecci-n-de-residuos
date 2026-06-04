@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Navegación — Camión {{ ruta.camion }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+  <a href="/" class="back-btn">Back</a>
+  <div class="header-info">
+    <h1>Camión {{ ruta.camion }} — {{ ruta.conductor }}</h1>
+    <p>Puerto Caimito, La Chorrera</p>
+  </div>
+  <span class="estado-badge"><div class="live-dot"></div> En ruta</span>
+</header>
+
+<div class="contenido">
+
+  <div id="mapa"></div>
+
+  <div class="panel">
+
+    <div class="proxima">
+      <div class="proxima-label">Próxima parada</div>
+      <div class="proxima-dir" id="prox-dir">Cargando...</div>
+      <div class="proxima-meta">
+        <span><span id="prox-kg">—</span> kg</span>
+        <span>Parada #<span id="prox-num">—</span></span>
+      </div>
+
+      <div class="btns-nav">
+        <a id="btn-waze" href="#" target="_blank" class="btn-nav btn-waze">
+          Abrir Waze
+        </a>
+        <a id="btn-gmaps" href="#" target="_blank" class="btn-nav btn-gmaps">
+          Google Maps
+        </a>
+      </div>
+
+      <button class="btn-llegar" id="btn-llegar" onclick="marcarLlegada()">
+        Marcar como completada
+      </button>
+    </div>
+
+    <div class="gps-status" id="gps-status">Esperando señal GPS...</div>
+
+    <div class="toggle-seguir">
+      <span>Seguir mi posición</span>
+      <button class="toggle-btn activo" id="toggle-seguir" onclick="toggleSeguir()">ON</button>
+    </div>
+
+    <div class="progreso-wrap">
+      <div class="progreso-header">
+        <span>Progreso de ruta</span>
+        <span><span id="prog-comp">0</span>/{{ ruta.paradas_total }} paradas</span>
+      </div>
+      <div class="progreso-bar">
+        <div class="progreso-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="stats-rapidas">
+      <div class="stat-r">
+        <div class="stat-r-val" id="st-pend">{{ ruta.paradas_total }}</div>
+        <div class="stat-r-lbl">Pendientes</div>
+      </div>
+      <div class="stat-r">
+        <div class="stat-r-val">{{ ruta.distancia_km }}</div>
+        <div class="stat-r-lbl">km ruta</div>
+      </div>
+      <div class="stat-r">
+        <div class="stat-r-val">{{ ruta.carga_kg }}</div>
+        <div class="stat-r-lbl">kg est.</div>
+      </div>
+    </div>
+
+    <div class="paradas-header">Todas las paradas</div>
+    <div class="paradas-lista" id="lista-paradas"></div>
+
+  </div>
+</div>
+<script>
+  // ── CONFIGURACIÓN ──────────────────────────────────────────────────────────
+const CAMION_ID = "{{ camion_id }}";
+const COLOR     = "{{ ruta.color }}";
+const DEPOSITO  = { lat: {{ deposito.lat }}, lon: {{ deposito.lon }}, nombre: "{{ deposito.nombre }}" };
+const PARADAS   = {{ ruta.paradas | tojson }};
+
+let paradaActualIdx = PARADAS.findIndex(p => !p.completada);
+if (paradaActualIdx === -1) paradaActualIdx = PARADAS.length - 1;
+
+let seguirConductor = true;
+let marcadorConductor = null;
+let rutaPolyline = null;
+
+if ('wakeLock' in navigator) {
+  navigator.wakeLock.request('screen').catch(() => {});
+}
+
+// ── MAPA LEAFLET ────────────────────────────────────────────────────────────
+const map = L.map('mapa', { zoomControl: true })
+  .setView([PARADAS[paradaActualIdx].lat, PARADAS[paradaActualIdx].lon], 16);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap',
+  maxZoom: 19
+}).addTo(map);
+
+// ── DEPÓSITO ────────────────────────────────────────────────────────────────
+const iconDeposito = L.divIcon({
+  html: `<div style="background:#f5f8f0;border:2px solid #7da78c;border-radius:50%;
+    width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;color:#2c3a3b;">D</div>`,
+  className: '', iconAnchor: [17, 17]
+});
+L.marker([DEPOSITO.lat, DEPOSITO.lon], { icon: iconDeposito })
+  .addTo(map)
+  .bindPopup(`<b>${DEPOSITO.nombre}</b>`);
+
+// ── MARCADORES DE PARADAS ───────────────────────────────────────────────────
+const marcadores = [];
+
+function crearIconoParada(num, activa, completada) {
+  const bg    = completada ? '#d4dfc8' : activa ? COLOR : '#f5f8f0';
+  const borde = completada ? '#7a9080' : activa ? COLOR : '#d4dfc8';
+  const txt   = completada ? '✓'       : num;
+  const color = completada ? '#7a9080' : activa ? 'white' : '#2c3a3b';
+  const size  = activa ? 36 : 28;
+  return L.divIcon({
+    html: `<div style="background:${bg};border:2px solid ${borde};border-radius:50%;
+      width:${size}px;height:${size}px;display:flex;align-items:center;justify-content:center;
+      font-size:${activa?13:11}px;font-weight:700;color:${color};
+      font-family:'Space Grotesk',sans-serif;cursor:pointer;
+      box-shadow:${activa?`0 0 0 4px ${COLOR}44,0 2px 8px rgba(0,0,0,0.2)`:'0 1px 4px rgba(0,0,0,0.15)'};
+      transition:all 0.3s;">${txt}</div>`,
+    className: '', iconAnchor: [size/2, size/2]
+  });
+}
+
+PARADAS.forEach((p, i) => {
+  const marker = L.marker([p.lat, p.lon], { icon: crearIconoParada(p.id, i === paradaActualIdx, p.completada) })
+    .addTo(map)
+    .bindPopup(`<b>Parada #${p.id}</b><br>${p.direccion}<br>${p.demanda_kg} kg`);
+  marker.on('click', () => irAParada(i));
+  marcadores.push(marker);
+});
+
+// ── RUTA POR CALLES (OSRM) ──────────────────────────────────────────────────
+function calcularRutaCalles() {
+  const proximasParadas = PARADAS.slice(paradaActualIdx, paradaActualIdx + 15);
+  if (proximasParadas.length === 0) return;
+
+  const coords = [
+    `${DEPOSITO.lon},${DEPOSITO.lat}`,
+    ...proximasParadas.map(p => `${p.lon},${p.lat}`)
+  ].join(';');
+
+  fetch(`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`)
+    .then(r => r.json())
+    .then(data => {
+      if (rutaPolyline) { map.removeLayer(rutaPolyline); }
+      if (data.code === 'Ok') {
+        const coords = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+        rutaPolyline = L.polyline(coords, {
+          color: '#005F02', weight: 5, opacity: 0.85
+        }).addTo(map);
+      } else {
+        trazarLineaRecta();
+      }
+    })
+    .catch(() => trazarLineaRecta());
+}
+
+function trazarLineaRecta() {
+  if (rutaPolyline) { map.removeLayer(rutaPolyline); }
+  const coords = [[DEPOSITO.lat, DEPOSITO.lon], ...PARADAS.map(p => [p.lat, p.lon])];
+  rutaPolyline = L.polyline(coords, { color: '#005F02', weight: 3, dashArray: '6,4' }).addTo(map);
+}
+
+calcularRutaCalles();
+
+// ── GEOLOCALIZACIÓN ─────────────────────────────────────────────────────────
+function calcularDistanciaMetros(lat1, lon1, lat2, lon2) {
+  const R = 6371e3;
+  const p1 = lat1 * Math.PI / 180, p2 = lat2 * Math.PI / 180;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(p1)*Math.cos(p2)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function iniciarGPS() {
+  if (!navigator.geolocation) {
+    document.getElementById('gps-status').textContent = 'GPS no disponible';
+    return;
+  }
+  navigator.geolocation.watchPosition(
+    pos => {
+      const { latitude: lat, longitude: lon, accuracy } = pos.coords;
+      document.getElementById('gps-status').textContent = `GPS activo (Precision: ${Math.round(accuracy)}m)`;
+
+      if (!marcadorConductor) {
+        const icono = L.divIcon({
+          html: `<div class="conductor-marker">C</div>`,
+          className: '', iconAnchor: [20, 20]
+        });
+        marcadorConductor = L.marker([lat, lon], { icon: icono }).addTo(map);
+      } else {
+        marcadorConductor.setLatLng([lat, lon]);
+      }
+
+      if (seguirConductor) { map.panTo([lat, lon]); }
+
+      const prox = PARADAS[paradaActualIdx];
+      if (prox && !prox.completada) {
+        if (calcularDistanciaMetros(lat, lon, prox.lat, prox.lon) <= 20) {
+          marcarLlegada();
+        }
+      }
+    },
+    err => {
+      const msgs = { 1: 'Permiso de GPS denegado', 2: 'Senal GPS perdida', 3: 'Tiempo agotado' };
+      document.getElementById('gps-status').textContent = msgs[err.code] || 'Error GPS';
+    },
+    { enableHighAccuracy: true, maximumAge: 0, timeout: 8000 }
+  );
+}
+
+function toggleSeguir() {
+  seguirConductor = !seguirConductor;
+  const btn = document.getElementById('toggle-seguir');
+  btn.textContent = seguirConductor ? 'ON' : 'OFF';
+  btn.classList.toggle('activo', seguirConductor);
+}
+
+iniciarGPS();
+
+// ── BOTONES WAZE / GOOGLE MAPS ──────────────────────────────────────────────
+function actualizarBotonesNav() {
+  const prox = PARADAS[paradaActualIdx];
+  if (!prox) return;
+  document.getElementById('btn-waze').href  = `https://waze.com/ul?ll=${prox.lat},${prox.lon}&navigate=yes`;
+  document.getElementById('btn-gmaps').href = `https://www.google.com/maps/dir/?api=1&destination=${prox.lat},${prox.lon}&travelmode=driving`;
+}
+
+// ── UI ──────────────────────────────────────────────────────────────────────
+function actualizarUI() {
+  const comp = PARADAS.filter(p => p.completada).length;
+  const pct  = Math.round(comp / PARADAS.length * 100);
+  const prox = PARADAS[paradaActualIdx];
+
+  document.getElementById('prog-comp').textContent = comp;
+  document.getElementById('prog-fill').style.width  = pct + '%';
+  document.getElementById('st-pend').textContent    = PARADAS.length - comp;
+
+  if (prox && !prox.completada) {
+    document.getElementById('prox-dir').textContent = prox.direccion;
+    document.getElementById('prox-kg').textContent  = prox.demanda_kg;
+    document.getElementById('prox-num').textContent = prox.id;
+    document.getElementById('btn-llegar').disabled  = false;
+    document.getElementById('btn-waze').style.display  = 'inline-flex';
+    document.getElementById('btn-gmaps').style.display = 'inline-flex';
+    actualizarBotonesNav();
+  } else {
+    document.getElementById('prox-dir').textContent = 'Ruta completada';
+    document.getElementById('btn-llegar').disabled  = true;
+    document.getElementById('btn-waze').style.display  = 'none';
+    document.getElementById('btn-gmaps').style.display = 'none';
+  }
+  renderLista();
+}
+
+function renderLista() {
+  const lista = document.getElementById('lista-paradas');
+  lista.innerHTML = PARADAS.map((p, i) => `
+    <div class="parada-item ${i === paradaActualIdx ? 'activa' : ''} ${p.completada ? 'completada-item' : ''}"
+         onclick="irAParada(${i})">
+      <div class="parada-num">${p.completada ? '✓' : p.id}</div>
+      <div class="parada-texto">
+        <div class="parada-dir">${p.direccion}</div>
+        <div class="parada-kg">${p.demanda_kg} kg</div>
+      </div>
+    </div>
+  `).join('');
+  const activo = lista.querySelector('.activa');
+  if (activo) activo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function irAParada(idx) {
+  paradaActualIdx = idx;
+  const p = PARADAS[idx];
+  map.flyTo([p.lat, p.lon], 16);
+  marcadores.forEach((m, i) => {
+    m.setIcon(crearIconoParada(PARADAS[i].id, i === idx, PARADAS[i].completada));
+  });
+  calcularRutaCalles();
+  actualizarUI();
+}
+
+function marcarLlegada() {
+  const p = PARADAS[paradaActualIdx];
+  if (!p || p.completada) return;
+
+  fetch(`/api/completar/${CAMION_ID}/${p.id}`, { method: 'POST' })
+    .then(r => r.json())
+    .then(() => {
+      p.completada = true;
+      marcadores[paradaActualIdx].setIcon(crearIconoParada(p.id, false, true));
+      const siguiente = PARADAS.findIndex((x, i) => i > paradaActualIdx && !x.completada);
+      if (siguiente !== -1) {
+        irAParada(siguiente);
+      } else {
+        paradaActualIdx = PARADAS.length;
+        actualizarUI();
+      }
+    }).catch(err => console.error(err));
+}
+
+actualizarUI();
+</script>
+</body>
+</html>
