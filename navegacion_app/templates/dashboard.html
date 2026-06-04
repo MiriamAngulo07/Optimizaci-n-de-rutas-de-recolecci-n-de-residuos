@@ -130,43 +130,43 @@ setInterval(tick, 1000);
 
 // ── GRÁFICA BARRAS ─────────────────────────────────────────────────────────
 const ctxBar = document.getElementById("chartBarras").getContext("2d");
-new Chart(ctxBar, {
-type: "bar",
-data: {
-labels: [{% for id, ruta in rutas.items() %}"Camión {{ ruta.camion }}"{% if not loop.last %},{% endif %}{% endfor %}],
-datasets: [
-  {
-    label: "Distancia (km)",
-    data: [{% for id, ruta in rutas.items() %}{{ ruta.distancia_km }}{% if not loop.last %},{% endif %}{% endfor %}],
-    backgroundColor: ["rgba(0,95,2,0.7)", "rgba(66,122,67,0.7)"],
-    borderColor:     ["#005F02", "#427A43"],
-    borderWidth: 2,
-    borderRadius: 8,
-    yAxisID: "y"
+const barChart = new Chart(ctxBar, {
+  type: "bar",
+  data: {
+    labels: [{% for id, ruta in rutas.items() %}"Camión {{ ruta.camion }}"{% if not loop.last %},{% endif %}{% endfor %}],
+    datasets: [
+      {
+        label: "Distancia (km)",
+        data: [{% for id, ruta in rutas.items() %}{{ ruta.distancia_km }}{% if not loop.last %},{% endif %}{% endfor %}],
+        backgroundColor: ["rgba(0,95,2,0.7)", "rgba(66,122,67,0.7)"],
+        borderColor:     ["#005F02", "#427A43"],
+        borderWidth: 2,
+        borderRadius: 8,
+        yAxisID: "y"
+      },
+      {
+        label: "Carga (t)",
+        data: [{% for id, ruta in rutas.items() %}{{ (ruta.carga_kg / 1000) | round(1) }}{% if not loop.last %},{% endif %}{% endfor %}],
+        backgroundColor: ["rgba(0,95,2,0.2)", "rgba(66,122,67,0.2)"],
+        borderColor:     ["#005F02", "#427A43"],
+        borderWidth: 2,
+        borderRadius: 8,
+        yAxisID: "y2"
+      }
+    ]
   },
-  {
-    label: "Carga (t)",
-    data: [{% for id, ruta in rutas.items() %}{{ (ruta.carga_kg / 1000) | round(1) }}{% if not loop.last %},{% endif %}{% endfor %}],
-    backgroundColor: ["rgba(0,95,2,0.2)", "rgba(66,122,67,0.2)"],
-    borderColor:     ["#005F02", "#427A43"],
-    borderWidth: 2,
-    borderRadius: 8,
-    yAxisID: "y2"
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: "#7a9080", font: { family: "Space Grotesk", size: 12 } } }
+    },
+    scales: {
+      x:  { ticks: { color: "#7a9080" }, grid: { color: "#d4dfc8" } },
+      y:  { ticks: { color: "#7a9080" }, grid: { color: "#d4dfc8" }, title: { display: true, text: "km",        color: "#7a9080" } },
+      y2: { position: "right", ticks: { color: "#7a9080" }, grid: { display: false }, title: { display: true, text: "toneladas", color: "#7a9080" } }
+    }
   }
-]
-},
-options: {
-responsive: true,
-maintainAspectRatio: false,
-plugins: {
-  legend: { labels: { color: "#7a9080", font: { family: "Space Grotesk", size: 12 } } }
-},
-scales: {
-  x:  { ticks: { color: "#7a9080" }, grid: { color: "#d4dfc8" } },
-  y:  { ticks: { color: "#7a9080" }, grid: { color: "#d4dfc8" }, title: { display: true, text: "km",        color: "#7a9080" } },
-  y2: { position: "right", ticks: { color: "#7a9080" }, grid: { display: false }, title: { display: true, text: "toneladas", color: "#7a9080" } }
-}
-}
 });
 
 // ── GRÁFICA DONUT ──────────────────────────────────────────────────────────
@@ -216,6 +216,9 @@ function actualizarDatos() {
     let grandTotal = 0;
     const pendPorCamion = [];
 
+    const distancias = [];
+    const cargas = [];
+
     rutas.forEach((ruta, i) => {
       const id       = IDS_CAMIONES[i];
       const comp     = ruta.paradas.filter(p => p.completada).length;
@@ -225,33 +228,41 @@ function actualizarDatos() {
       compTotal  += comp;
       grandTotal += total;
       pendPorCamion.push(total - comp);
+      distancias.push(ruta.distancia_km);
+      cargas.push(Number((ruta.carga_kg / 1000).toFixed(1)));
 
       // Barras de progreso
       const fillEl = document.getElementById(`fill-c${id}`);
       const pctEl  = document.getElementById(`pct-c${id}`);
       const compEl = document.getElementById(`comp-c${id}`);
-      const tabEl  = document.getElementById(`tab-c${id}`);
 
       if (fillEl) fillEl.style.width  = pct + "%";
       if (pctEl)  pctEl.textContent   = pct + "%";
       if (compEl) compEl.textContent  = comp;
-      if (tabEl)  tabEl.textContent   = comp;
     });
+
+    if (barChart) {
+      barChart.data.datasets[0].data = distancias;
+      barChart.data.datasets[1].data = cargas;
+      barChart.update();
+    }
 
     const pctTotal = Math.round(compTotal / grandTotal * 100);
 
-    // KPIs
-    document.getElementById("kpi-comp").textContent  = compTotal;
-    document.getElementById("kpi-cob").textContent   = pctTotal + "%";
+  // KPIs
+  document.getElementById("kpi-comp").textContent  = compTotal;
+  document.getElementById("kpi-cob").textContent   = pctTotal + "%";
 
-    // Barra combinada
-    document.getElementById("fill-total").style.width = pctTotal + "%";
-    document.getElementById("pct-total").textContent  = pctTotal + "%";
-    document.getElementById("tab-total").textContent  = compTotal;
+  // Barra combinada
+  document.getElementById("fill-total").style.width = pctTotal + "%";
+  document.getElementById("pct-total").textContent  = pctTotal + "%";
+  const tabTotal = document.getElementById("tab-total");
+  if (tabTotal) tabTotal.textContent = compTotal;
 
-    // Donut
+  if (donutChart) {
     donutChart.data.datasets[0].data = [compTotal, ...pendPorCamion];
     donutChart.update();
+  }
 
   }).catch(() => {});
 }

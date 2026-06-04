@@ -16,7 +16,7 @@
         "lon": -79.7254071,
         "direccion": "Parada #1 — Sector 1",
         "demanda_kg": 65,
-        "completada": false
+        "completada": true
       },
       {
         "id": 2,
@@ -24,7 +24,7 @@
         "lon": -79.7252561,
         "direccion": "Parada #2 — Sector 1",
         "demanda_kg": 40,
-        "completada": false
+        "completada": true
       },
       {
         "id": 3,
@@ -32,7 +32,7 @@
         "lon": -79.7252074,
         "direccion": "Parada #3 — Sector 1",
         "demanda_kg": 75,
-        "completada": false
+        "completada": true
       },
       {
         "id": 4,
@@ -40,7 +40,7 @@
         "lon": -79.7247783,
         "direccion": "Parada #4 — Sector 1",
         "demanda_kg": 45,
-        "completada": false
+        "completada": true
       },
       {
         "id": 5,
@@ -48,7 +48,7 @@
         "lon": -79.7245962,
         "direccion": "Parada #5 — Sector 1",
         "demanda_kg": 30,
-        "completada": false
+        "completada": true
       },
       {
         "id": 6,
@@ -56,7 +56,7 @@
         "lon": -79.7248269,
         "direccion": "Parada #6 — Sector 1",
         "demanda_kg": 25,
-        "completada": false
+        "completada": true
       },
       {
         "id": 7,
@@ -64,7 +64,7 @@
         "lon": -79.7263879,
         "direccion": "Parada #7 — Sector 1",
         "demanda_kg": 45,
-        "completada": false
+        "completada": true
       },
       {
         "id": 8,
@@ -72,7 +72,7 @@
         "lon": -79.7253845,
         "direccion": "Parada #8 — Sector 1",
         "demanda_kg": 110,
-        "completada": false
+        "completada": true
       },
       {
         "id": 9,
