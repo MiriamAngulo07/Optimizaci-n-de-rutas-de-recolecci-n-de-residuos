@@ -3,13 +3,18 @@ Sistema de Navegación para Conductores
 Recolección de Desechos Sólidos — Puerto Caimito, La Chorrera
 Larana, Inc.
 """
-from flask import Flask, render_template, jsonify, request
+import sys
 import json
 import os
 import subprocess
-import sys
 import tempfile
 import traceback
+import threading
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "bot"))
+from flask import Flask, render_template, jsonify, request
+from notificador import iniciar_sesion, enviar_ruta_asignada, enviar_resumen_diario
+from scheduler_previa import notificar_previa
+from proximidad import revisar
 
 app = Flask(__name__)
 
@@ -200,6 +205,43 @@ with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
     json.dump(rutas_export, f, indent=2, ensure_ascii=False)
 print(f"JSON guardado: {{OUTPUT_JSON}}")
 '''
+lock_residentes = threading.Lock()
+
+# ─── Recibe la posición del camión y dispara los avisos ───
+
+@app.route("/api/gps", methods=["POST"])
+def api_gps():
+    body = request.get_json(silent=True) or {}
+    camion_id = body.get("camion_id")
+    lat = body.get("lat")
+    lon = body.get("lon")
+    if camion_id is None or lat is None or lon is None:
+        return jsonify({"ok": False, "error": "Faltan camion_id, lat o lon"}), 400
+    try:
+        with lock_residentes:
+            avisados = revisar(camion_id, float(lat), float(lon))
+        return jsonify({"ok": True, "avisados": avisados})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+# ─── Pantalla del conductor (la abre en su celular) ───
+@app.route("/conductor/<camion_id>")
+def conductor(camion_id):
+    return render_template("conductor.html", camion_id=camion_id)
+
+# ─── Endpoint que dispara la previa (NIVEL DE MÓDULO, antes de app.run) ───
+@app.route("/api/notificar-previa", methods=["POST"])
+def api_notificar_previa():
+    try:
+        # el front puede mandar {"camion_id": 1} para avisar solo a ese camión,
+        # o nada / {} para avisar a todos
+        body = request.get_json(silent=True) or {}
+        camion_id = body.get("camion_id")        # None = todos
+        enviados = notificar_previa(camion_id)
+        return jsonify({"ok": True, "enviados": enviados})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500   
 
 # ─── RUTAS FLASK ──────────────────────────────────────────────────────────────
 @app.route("/")
@@ -237,8 +279,17 @@ def completar_parada(camion_id, parada_id):
             p["completada"] = True
             with open(RUTAS_PATH, "w", encoding="utf-8") as f:
                 json.dump(rutas, f, indent=2, ensure_ascii=False)
+
+            # 🔔 el camión está en esta parada → avisar a los próximos vecinos
+            try:
+                with lock_residentes:
+                    avisados = revisar(camion_id, p["lat"], p["lon"])
+            except Exception as e:
+                print("Error proximidad:", e)
+                avisados = 0
+
             completadas = sum(1 for x in rutas[camion_id]["paradas"] if x["completada"])
-            return jsonify({"ok": True, "completadas": completadas})
+            return jsonify({"ok": True, "completadas": completadas, "avisados": avisados})
     return jsonify({"error": "parada no encontrada"}), 404
 
 def _resolver_ruta(ruta: str) -> str:
@@ -343,3 +394,25 @@ def generar_cvrp():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+ 
+if __name__ == "__main__":
+    # OJO: esto se dispara CADA vez que arrancas el server.
+    # Si no lo quieres en cada reinicio, muévelo a donde generas las rutas.
+    iniciar_sesion()
+
+    for i, ruta in enumerate(rutas_optimizadas, 1):
+        enviar_ruta_asignada(
+            numero_vehiculo=i,
+            trabajador=f"Operador {i}",
+            paradas=len(ruta),
+            distancia_km=round(distancia_total[i - 1], 1),   # ⬅ ver nota
+        )
+
+    enviar_resumen_diario(
+        total_vehiculos=len(rutas_optimizadas),
+        total_paradas=sum(len(r) for r in rutas_optimizadas),
+        distancia_total=round(sum(distancia_total), 1),
+        eficiencia=92,
+    )
+
+    app.run(debug=True, host="0.0.0.0", port=5000)

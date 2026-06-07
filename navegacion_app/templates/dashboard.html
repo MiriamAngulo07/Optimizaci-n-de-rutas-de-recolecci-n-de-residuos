@@ -20,6 +20,7 @@
     <div class="live-badge"><div class="live-dot"></div> EN VIVO</div>
     <div class="hora" id="hora">--:--</div>
     <a href="/" class="nav-btn">Ver camiones</a>
+    <button class="nav-btn" id="btn-previa" onclick="avisarPrevia()">Avisar recolección</button>
   </div>
 </header>
 
@@ -269,6 +270,17 @@ function actualizarDatos() {
 
 actualizarDatos();
 setInterval(actualizarDatos, 30000);
+
+function avisarPrevia() {
+  if (!confirm("¿Enviar aviso de recolección a todos los residentes?")) return;
+  const btn = document.getElementById("btn-previa");
+  btn.disabled = true; btn.textContent = "Enviando...";
+  fetch("/api/notificar-previa", { method: "POST" })
+    .then(r => r.json())
+    .then(d => alert(d.ok ? `Aviso enviado a ${d.enviados} residente(s).` : "Error: " + d.error))
+    .catch(() => alert("Error de conexión"))
+    .finally(() => { btn.disabled = false; btn.textContent = "Avisar recolección"; });
+}
 </script>
 
 </body>

@@ -1,0 +1,13 @@
+{
+  "residentes": [
+    {
+      "chat_id": 7326261442,
+      "nombre": "Elbis",
+      "lat": 8.872211,
+      "lon": -79.725594,
+      "camion_id": "1",
+      "notificado_previa": null,
+      "notificado_proximidad": "2026-06-07"
+    }
+  ]
+}
