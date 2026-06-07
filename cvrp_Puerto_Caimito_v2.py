@@ -73,10 +73,6 @@ def esta_en_puerto_caimito(lat, lon):
 random.seed(SEED)
 np.random.seed(SEED)
 
-if __name__ == "__main__":
-    # Iniciar SIROCA
-    iniciar_sesion()
-
 # ─── ① GRAFO + CASAS (desde el .osm local) ────────────────────────────────────
 necesita_reconstruir = DESCARGAR_DE_OSM or not (
     os.path.exists(ARCHIVO_GRAFO) and os.path.exists(ARCHIVO_PARADAS)
