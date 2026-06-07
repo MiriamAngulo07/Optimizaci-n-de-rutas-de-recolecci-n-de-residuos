@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparativa — Tradicional vs CVRP</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+  <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Larana" onerror="this.style.display='none'">
+  <div>
+    <h1>Comparativa — Tradicional vs CVRP</h1>
+    <p>Puerto Caimito, La Chorrera</p>
+  </div>
+  <div class="header-right">
+    <a href="/dashboard" class="nav-btn">Dashboard operador</a>
+    <a href="/" class="nav-btn">Ver camiones</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="leyenda">
+    <div class="ley-item"><div class="ley-dot ley-trad"></div> Sistema tradicional (sin algoritmo)</div>
+    <div class="ley-item"><div class="ley-dot ley-cvrp"></div> Sistema CVRP (con algoritmo)</div>
+  </div>
+
+  <!-- KPIs COMPARATIVOS -->
+  <p class="section-label">Métricas comparativas — jornada completa</p>
+  <div class="kpi-grid" id="kpi-grid"></div>
+
+  <!-- GRÁFICAS COMPARATIVAS -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Distancia total por camión (km)</div>
+      <div class="chart-wrap"><canvas id="chartKm"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Combustible estimado por camión (litros)</div>
+      <div class="chart-wrap"><canvas id="chartComb"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Viajes al relleno sanitario por camión</div>
+      <div class="chart-wrap"><canvas id="chartViajes"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Tiempo estimado de jornada por camión (horas)</div>
+      <div class="chart-wrap"><canvas id="chartTiempo"></canvas></div>
+    </div>
+  </div>
+
+  <!-- BARRAS COMPARATIVAS -->
+  <div class="grid-2" style="margin-top: 4px;">
+    <div class="card">
+      <div class="card-title">Comparativa de distancia — camión a camión</div>
+      <div id="barra-km"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Comparativa de tiempo de jornada</div>
+      <div id="barra-tiempo"></div>
+    </div>
+  </div>
+
+  <!-- TABLA DETALLE -->
+  <p class="section-label" style="margin-top: 8px;">Detalle por camión — tradicional vs CVRP</p>
+  <div class="card" style="margin-bottom: 20px;">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Camión</th>
+            <th>Paradas</th>
+            <th>Dist. Trad. (km)</th>
+            <th>Dist. CVRP (km)</th>
+            <th>Ahorro dist.</th>
+            <th>Comb. Trad. (L)</th>
+            <th>Comb. CVRP (L)</th>
+            <th>Ahorro comb.</th>
+            <th>Viajes Trad.</th>
+            <th>Viajes CVRP</th>
+            <th>Tiempo Trad. (h)</th>
+            <th>Tiempo CVRP (h)</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NOTA METODOLÓGICA -->
+  <div class="nota">
+    <strong>Supuestos del modelo de simulación (sistema tradicional):</strong><br>
+    • Velocidad promedio urbana: <strong>20 km/h</strong> &nbsp;|&nbsp;
+    Tiempo por parada: <strong>2 min</strong> &nbsp;|&nbsp;
+    Tiempo de descarga en relleno: <strong>15 min</strong><br>
+    • Consumo combustible: <strong>0.35 L/km</strong> &nbsp;|&nbsp;
+    Recorrido baseline = distancia CVRP × <strong>1.6</strong> (factor de ineficiencia secuencial, literatura VRP)<br>
+    • Viajes al relleno CVRP = ⌈demanda / capacidad⌉ &nbsp;|&nbsp;
+    Viajes tradicional = viajes CVRP + 1 (llenado anticipado sin control)<br>
+    • <em>Datos estimados con fines comparativos. No representan mediciones reales del sistema anterior.</em>
+  </div>
+
+</main>
+
+<script>
+// ── SUPUESTOS ────────────────────────────────────────────────────────────────
+const VEL_KMH      = 20;
+const MIN_PARADA   = 2;
+const MIN_DESCARGA = 15;
+const L_POR_KM     = 0.35;
+const FACTOR_INEF  = 1.6;
+const CAPACIDAD_KG = 8000;
+
+// ── DATOS CVRP ───────────────────────────────────────────────────────────────
+const rutasCVRP = {{ rutas | tojson }};
+
+// ── CALCULAR AMBOS SISTEMAS ───────────────────────────────────────────────────
+function calcTiempoH(km, paradas, viajes) {
+  const min = (km / VEL_KMH) * 60 + paradas * MIN_PARADA + viajes * MIN_DESCARGA;
+  return parseFloat((min / 60).toFixed(1));
+}
+
+const camiones = Object.entries(rutasCVRP).map(([id, r]) => {
+  const paradas  = r.paradas_total;
+  const carga_kg = r.carga_kg;
+
+  // CVRP
+  const km_cvrp    = r.distancia_km;
+  const viajes_cvrp = Math.max(1, Math.ceil(carga_kg / CAPACIDAD_KG));
+  const litros_cvrp = parseFloat((km_cvrp * L_POR_KM).toFixed(1));
+  const horas_cvrp  = calcTiempoH(km_cvrp, paradas, viajes_cvrp);
+
+  // Tradicional
+  const km_trad    = parseFloat((km_cvrp * FACTOR_INEF).toFixed(1));
+  const viajes_trad = viajes_cvrp + 1;
+  const litros_trad = parseFloat((km_trad * L_POR_KM).toFixed(1));
+  const horas_trad  = calcTiempoH(km_trad, paradas, viajes_trad);
+
+  return {
+    id, label: `Camión ${r.camion}`, paradas, carga_kg,
+    km_cvrp,    km_trad,
+    litros_cvrp, litros_trad,
+    viajes_cvrp, viajes_trad,
+    horas_cvrp,  horas_trad,
+  };
+});
+
+// ── TOTALES ───────────────────────────────────────────────────────────────────
+const tot = (key) => parseFloat(camiones.reduce((s, c) => s + c[key], 0).toFixed(1));
+const pct = (trad, cvrp) => Math.round((1 - cvrp / trad) * 100);
+
+const totales = {
+  km:      { trad: tot("km_trad"),     cvrp: tot("km_cvrp"),     lbl: "Distancia total",   unit: "km" },
+  litros:  { trad: tot("litros_trad"), cvrp: tot("litros_cvrp"), lbl: "Combustible total",  unit: "L"  },
+  viajes:  { trad: tot("viajes_trad"), cvrp: tot("viajes_cvrp"), lbl: "Viajes al relleno", unit: ""   },
+  horas:   { trad: Math.max(...camiones.map(c => c.horas_trad)).toFixed(1),
+             cvrp: Math.max(...camiones.map(c => c.horas_cvrp)).toFixed(1),
+             lbl: "Tiempo de jornada", unit: "h" },
+};
+
+// ── KPI CARDS ────────────────────────────────────────────────────────────────
+const kpiGrid = document.getElementById("kpi-grid");
+Object.values(totales).forEach(m => {
+  const ahorroAbs = parseFloat((m.trad - m.cvrp).toFixed(1));
+  const ahorroPct = pct(parseFloat(m.trad), parseFloat(m.cvrp));
+  kpiGrid.innerHTML += `
+    <div class="kpi-card">
+      <div class="kpi-title">${m.lbl}</div>
+      <div class="kpi-row">
+        <div class="kpi-side">
+          <div class="kpi-side-label">Tradicional</div>
+          <div class="kpi-side-val val-trad">${m.trad}${m.unit}</div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-side">
+          <div class="kpi-side-label">CVRP</div>
+          <div class="kpi-side-val val-cvrp">${m.cvrp}${m.unit}</div>
+        </div>
+      </div>
+      <div class="kpi-ahorro">
+        <span class="ahorro-pct">↓ ${ahorroPct}%</span>
+        <span class="ahorro-lbl">menos con CVRP (−${ahorroAbs}${m.unit})</span>
+      </div>
+    </div>`;
+});
+
+// ── TABLA ────────────────────────────────────────────────────────────────────
+const tbody = document.getElementById("tabla-body");
+camiones.forEach(c => {
+  const dKm  = pct(c.km_trad,     c.km_cvrp);
+  const dCmb = pct(c.litros_trad, c.litros_cvrp);
+  tbody.innerHTML += `
+    <tr>
+      <td><b>${c.label}</b></td>
+      <td>${c.paradas}</td>
+      <td class="td-trad">${c.km_trad}</td>
+      <td class="td-cvrp">${c.km_cvrp}</td>
+      <td class="td-delta delta-pos">↓ ${dKm}%</td>
+      <td class="td-trad">${c.litros_trad}</td>
+      <td class="td-cvrp">${c.litros_cvrp}</td>
+      <td class="td-delta delta-pos">↓ ${dCmb}%</td>
+      <td class="td-trad">${c.viajes_trad}</td>
+      <td class="td-cvrp">${c.viajes_cvrp}</td>
+      <td class="td-trad">${c.horas_trad}</td>
+      <td class="td-cvrp">${c.horas_cvrp}</td>
+    </tr>`;
+});
+
+// ── BARRAS COMPARATIVAS ───────────────────────────────────────────────────────
+function barrasComparativas(containerId, camiones, keyTrad, keyCvrp, unit) {
+  const maxVal = Math.max(...camiones.map(c => c[keyTrad]));
+  const el = document.getElementById(containerId);
+  camiones.forEach(c => {
+    const wTrad = (c[keyTrad] / maxVal * 100).toFixed(1);
+    const wCvrp = (c[keyCvrp] / maxVal * 100).toFixed(1);
+    el.innerHTML += `
+      <div class="cmp-row">
+        <div class="cmp-label"><b>${c.label}</b></div>
+        <div class="cmp-bars">
+          <div class="cmp-bar-wrap">
+            <span class="cmp-bar-lbl">Trad.</span>
+            <div class="cmp-bar"><div class="cmp-fill fill-trad" style="width:${wTrad}%"></div></div>
+            <span class="cmp-bar-val td-trad">${c[keyTrad]}${unit}</span>
+          </div>
+          <div class="cmp-bar-wrap">
+            <span class="cmp-bar-lbl">CVRP</span>
+            <div class="cmp-bar"><div class="cmp-fill fill-cvrp" style="width:${wCvrp}%"></div></div>
+            <span class="cmp-bar-val td-cvrp">${c[keyCvrp]}${unit}</span>
+          </div>
+        </div>
+      </div>`;
+  });
+}
+barrasComparativas("barra-km",     camiones, "km_trad",    "km_cvrp",    " km");
+barrasComparativas("barra-tiempo", camiones, "horas_trad", "horas_cvrp", " h");
+
+// ── CHART.JS CONFIGURACIÓN BASE ───────────────────────────────────────────────
+const labels   = camiones.map(c => c.label);
+const COLOR_T  = "rgba(160,48,48,0.75)";
+const COLOR_C  = "rgba(0,95,2,0.75)";
+const BORDER_T = "#a03030";
+const BORDER_C = "#005F02";
+
+const baseOpts = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: {
+    legend: { labels: { color: "#7a9080", font: { family: "IBM Plex Sans", size: 12 } } }
+  },
+  scales: {
+    x: { ticks: { color: "#7a9080" }, grid: { color: "#d4dfc8" } },
+    y: { ticks: { color: "#7a9080" }, grid: { color: "#d4dfc8" }, beginAtZero: true }
+  }
+};
+
+function barChart(id, dataT, dataC, labelT, labelC) {
+  new Chart(document.getElementById(id), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        { label: labelT, data: dataT, backgroundColor: COLOR_T, borderColor: BORDER_T, borderWidth: 2, borderRadius: 6 },
+        { label: labelC, data: dataC, backgroundColor: COLOR_C, borderColor: BORDER_C, borderWidth: 2, borderRadius: 6 },
+      ]
+    },
+    options: { ...baseOpts }
+  });
+}
+
+barChart("chartKm",     camiones.map(c=>c.km_trad),     camiones.map(c=>c.km_cvrp),     "Tradicional (km)",  "CVRP (km)");
+barChart("chartComb",   camiones.map(c=>c.litros_trad), camiones.map(c=>c.litros_cvrp), "Tradicional (L)",   "CVRP (L)");
+barChart("chartViajes", camiones.map(c=>c.viajes_trad), camiones.map(c=>c.viajes_cvrp), "Tradicional",       "CVRP");
+barChart("chartTiempo", camiones.map(c=>c.horas_trad),  camiones.map(c=>c.horas_cvrp),  "Tradicional (h)",   "CVRP (h)");
+</script>
+</body>
+</html>
