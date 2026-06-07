@@ -51,11 +51,6 @@ ARCHIVO_PARADAS  = "paradas_recoleccion.json"
 
 COLORES = ["#7B2D8B", "#4CAF50"]   # morado y verde
 
-from bot.siroca_bot import (
-    iniciar_sesion,
-    enviar_ruta_asignada,
-    enviar_resumen_diario
-)
 
 # ─── Bounding Box para Puerto Caimito ────────────────────────────────────
 BBOX_PUERTO_CAIMITO = {
@@ -79,18 +74,18 @@ necesita_reconstruir = DESCARGAR_DE_OSM or not (
 )
 
 if necesita_reconstruir:
-    print(f"📂 Leyendo red de calles desde {ARCHIVO_OSM} ...")
+    print(f"Leyendo red de calles desde {ARCHIVO_OSM} ...")
     G = ox.graph_from_xml(ARCHIVO_OSM, simplify=True, retain_all=False)
     print(f"   ✓ Grafo: {len(G.nodes)} nodos, {len(G.edges)} aristas")
 
     # Casas (building footprints) leídas del MISMO archivo .osm (sin servidor)
-    print("🏠 Leyendo casas (building footprints) del .osm ...")
+    print("Leyendo casas (building footprints) del .osm ...")
     edif = ox.features_from_xml(ARCHIVO_OSM, tags={"building": True})
     edif = edif[~edif.geometry.isna()].copy()
     print(f"   ✓ {len(edif)} casas en el archivo")
     if len(edif) == 0:
         raise SystemExit(
-            "❌ No hay casas en el .osm. Dibuja edificios en JOSM y vuelve a guardarlo."
+            "No hay casas en el .osm. Dibuja edificios en JOSM y vuelve a guardarlo."
         )
 
     # Centroide de cada casa (proyectar a metros para que el centroide sea correcto)
@@ -99,7 +94,7 @@ if necesita_reconstruir:
     xs = np.array([p.x for p in cent])   # longitudes
     ys = np.array([p.y for p in cent])   # latitudes
 
-    print("\n📍 Filtrando casas por zona (Puerto Caimito)...")
+    print("\nFiltrando casas por zona (Puerto Caimito)...")
     casas_en_zona = []
     for idx, (x, y) in enumerate(zip(xs, ys)):
         if esta_en_puerto_caimito(y, x):  # lat, lon
@@ -107,7 +102,7 @@ if necesita_reconstruir:
     
     casas_excluidas = len(edif) - len(casas_en_zona)
     print(f"   ✓ Casas en Puerto Caimito: {len(casas_en_zona)}")
-    print(f"   ⚠️  Casas excluidas (camino/otras zonas): {casas_excluidas}")
+    print(f"   Casas excluidas (camino/otras zonas): {casas_excluidas}")
     
     # Usar solo las casas en la zona
     xs_filtrados = xs[casas_en_zona]
@@ -129,7 +124,7 @@ if necesita_reconstruir:
     print(f"   ✓ Guardado: {ARCHIVO_GRAFO}  y  {ARCHIVO_PARADAS}")
     print(f"   ✓ {len(edif)} casas → {len(paradas)} paradas (de {len(G.nodes)} nodos)")
 else:
-    print("📂 Cargando grafo y paradas guardados...")
+    print("Cargando grafo y paradas guardados...")
     G = ox.load_graphml(ARCHIVO_GRAFO)
     with open(ARCHIVO_PARADAS, "r", encoding="utf-8") as f:
         paradas = json.load(f)
@@ -171,7 +166,7 @@ if demanda_total > capacidad_total:
           "Sube NUM_CAMIONES o baja KG_POR_CASA.")
 
 # ─── ③ MATRIZ DE DISTANCIAS ───────────────────────────────────────────────────
-print("\n🔢 Calculando matriz de distancias (sobre la red completa)...")
+print("\nCalculando matriz de distancias (sobre la red completa)...")
 dist_matrix = [[0] * n for _ in range(n)]
 for i, origen in enumerate(todos_nodos_ruta):
     lengths = nx.single_source_dijkstra_path_length(G, origen, weight="length")
@@ -180,7 +175,7 @@ for i, origen in enumerate(todos_nodos_ruta):
 print("   ✓ Matriz lista")
 
 # ─── ④ CVRP CON OR-TOOLS ──────────────────────────────────────────────────────
-print("\n🚛 Ejecutando CVRP con OR-Tools...")
+print("\nEjecutando CVRP con OR-Tools...")
 data = {
     "distance_matrix": dist_matrix,
     "demands": demandas,
@@ -240,15 +235,15 @@ for vehiculo in range(NUM_CAMIONES):
     print(f"   Camión {vehiculo+1}: {len(ruta_nodos)-2} paradas | "
           f"{ruta_dist/1000:.2f} km | {ruta_carga} kg")
 
-print(f"   📊 Distancia total: {distancia_total/1000:.2f} km")
+print(f"   Distancia total: {distancia_total/1000:.2f} km")
 
-# ─── ⑥ MAPA FOLIUM ────────────────────────────────────────────────────────────
-print("\n🗺️  Generando mapa interactivo...")
+# ─── ⑥ MAPA FOLIUM ──────────────────────────────────────────────────────────
+print("\nGenerando mapa interactivo...")
 mapa = folium.Map(location=ZONA_CENTRO, zoom_start=15, tiles="CartoDB positron")
 
 folium.Marker(
     location=DEPOSITO_COORDS,
-    popup="🏭 Relleno Sanitario El Diamante",
+    popup="Relleno Sanitario El Diamante",
     tooltip="Depósito",
     icon=folium.Icon(color="black", icon="home", prefix="fa"),
 ).add_to(mapa)
@@ -256,7 +251,7 @@ folium.Marker(
 for r in rutas:
     color = COLORES[(r["vehiculo"] - 1) % len(COLORES)]
     grupo = folium.FeatureGroup(
-        name=f"🚛 Camión {r['vehiculo']} — {r['paradas']} paradas | "
+        name=f"Camión {r['vehiculo']} — {r['paradas']} paradas | "
              f"{r['distancia_m']/1000:.1f} km | {r['carga_kg']} kg"
     )
 
@@ -289,7 +284,7 @@ folium.LayerControl(collapsed=False).add_to(mapa)
 
 # Panel de resumen
 filas_camiones = "".join([
-    f"<tr><td>🚛 Camión {r['vehiculo']}</td>"
+    f"<tr><td>Camión {r['vehiculo']}</td>"
     f"<td style='color:{COLORES[(r['vehiculo']-1) % len(COLORES)]}'>{r['paradas']}</td>"
     f"<td>{r['distancia_m']/1000:.1f} km</td>"
     f"<td>{r['carga_kg']} kg</td></tr>"
@@ -301,7 +296,7 @@ panel_html = f"""
             padding:14px 18px;border-radius:10px;
             box-shadow:0 2px 12px rgba(0,0,0,0.25);
             font-family:Arial,sans-serif;font-size:13px;">
-  <b style="color:#7B2D8B;font-size:14px;">🗑️ CVRP — Puerto Caimito</b>
+  <b style="color:#7B2D8B;font-size:14px;">CVRP — Puerto Caimito</b>
   <hr style="margin:6px 0;border-color:#eee">
   <table style="border-collapse:collapse;width:100%">
     <tr style="color:#888;font-size:11px">
@@ -349,9 +344,9 @@ with open("metricas_cvrp.json", "w", encoding="utf-8") as f:
     json.dump(metricas, f, indent=2, ensure_ascii=False)
 print("   ✓ Métricas guardadas: metricas_cvrp.json")
 
-print("\n✅ ¡Todo listo!")
+print("\n¡Todo listo!")
 print(f"   → Abre '{output_html}' en tu navegador para ver el mapa")
-print(f"\n📊 RESUMEN:")
+print(f"\nRESUMEN:")
 print(f"   Distancia total: {distancia_total/1000:.2f} km")
 for r in rutas:
     util = r["carga_kg"] / CAPACIDAD_KG * 100

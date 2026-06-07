@@ -262,6 +262,11 @@ def dashboard():
     rutas = cargar_rutas()
     return render_template("dashboard.html", rutas=rutas)
 
+@app.route("/baseline")
+def baseline():
+    rutas = cargar_rutas()
+    return render_template("baseline.html", rutas=rutas)
+
 @app.route("/api/ruta/<camion_id>")
 def api_ruta(camion_id):
     rutas = cargar_rutas()
@@ -280,7 +285,6 @@ def completar_parada(camion_id, parada_id):
             with open(RUTAS_PATH, "w", encoding="utf-8") as f:
                 json.dump(rutas, f, indent=2, ensure_ascii=False)
 
-            # 🔔 el camión está en esta parada → avisar a los próximos vecinos
             try:
                 with lock_residentes:
                     avisados = revisar(camion_id, p["lat"], p["lon"])
@@ -416,3 +420,4 @@ if __name__ == "__main__":
     )
 
     app.run(debug=True, host="0.0.0.0", port=5000)
+    

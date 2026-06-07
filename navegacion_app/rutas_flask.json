@@ -12,210 +12,210 @@
     "paradas": [
       {
         "id": 1,
-        "lat": 8.8730636,
-        "lon": -79.7254071,
+        "lat": 8.8726602,
+        "lon": -79.7245801,
         "direccion": "Parada #1 — Sector 1",
         "demanda_kg": 65,
-        "completada": true
+        "completada": false
       },
       {
         "id": 2,
-        "lat": 8.8737786,
-        "lon": -79.7252561,
+        "lat": 8.8722203,
+        "lon": -79.7245211,
         "direccion": "Parada #2 — Sector 1",
-        "demanda_kg": 40,
-        "completada": true
+        "demanda_kg": 80,
+        "completada": false
       },
       {
         "id": 3,
-        "lat": 8.8730795,
-        "lon": -79.7252074,
+        "lat": 8.8720931,
+        "lon": -79.726345,
         "direccion": "Parada #3 — Sector 1",
-        "demanda_kg": 75,
-        "completada": true
-      },
-      {
-        "id": 4,
-        "lat": 8.8731126,
-        "lon": -79.7247783,
-        "direccion": "Parada #4 — Sector 1",
-        "demanda_kg": 45,
-        "completada": true
-      },
-      {
-        "id": 5,
-        "lat": 8.8731267,
-        "lon": -79.7245962,
-        "direccion": "Parada #5 — Sector 1",
-        "demanda_kg": 30,
-        "completada": true
-      },
-      {
-        "id": 6,
-        "lat": 8.8737945,
-        "lon": -79.7248269,
-        "direccion": "Parada #6 — Sector 1",
-        "demanda_kg": 25,
-        "completada": true
-      },
-      {
-        "id": 7,
-        "lat": 8.8725383,
-        "lon": -79.7263879,
-        "direccion": "Parada #7 — Sector 1",
-        "demanda_kg": 45,
-        "completada": true
-      },
-      {
-        "id": 8,
-        "lat": 8.8726347,
-        "lon": -79.7253845,
-        "direccion": "Parada #8 — Sector 1",
-        "demanda_kg": 110,
-        "completada": true
-      },
-      {
-        "id": 9,
-        "lat": 8.8721808,
-        "lon": -79.7253479,
-        "direccion": "Parada #9 — Sector 1",
-        "demanda_kg": 95,
-        "completada": false
-      },
-      {
-        "id": 10,
-        "lat": 8.8717177,
-        "lon": -79.7253153,
-        "direccion": "Parada #10 — Sector 1",
-        "demanda_kg": 95,
-        "completada": false
-      },
-      {
-        "id": 11,
-        "lat": 8.8712625,
-        "lon": -79.7252754,
-        "direccion": "Parada #11 — Sector 1",
-        "demanda_kg": 110,
-        "completada": false
-      },
-      {
-        "id": 12,
-        "lat": 8.8708437,
-        "lon": -79.7252407,
-        "direccion": "Parada #12 — Sector 1",
-        "demanda_kg": 110,
-        "completada": false
-      },
-      {
-        "id": 13,
-        "lat": 8.8704129,
-        "lon": -79.7252212,
-        "direccion": "Parada #13 — Sector 1",
-        "demanda_kg": 110,
-        "completada": false
-      },
-      {
-        "id": 14,
-        "lat": 8.8704871,
-        "lon": -79.7243924,
-        "direccion": "Parada #14 — Sector 1",
-        "demanda_kg": 55,
-        "completada": false
-      },
-      {
-        "id": 15,
-        "lat": 8.8703175,
-        "lon": -79.7261841,
-        "direccion": "Parada #15 — Sector 1",
         "demanda_kg": 70,
         "completada": false
       },
       {
-        "id": 16,
-        "lat": 8.8683458,
-        "lon": -79.7260339,
-        "direccion": "Parada #16 — Sector 1",
-        "demanda_kg": 90,
+        "id": 4,
+        "lat": 8.8716638,
+        "lon": -79.7263236,
+        "direccion": "Parada #4 — Sector 1",
+        "demanda_kg": 70,
         "completada": false
       },
       {
-        "id": 17,
-        "lat": 8.8691976,
-        "lon": -79.7251366,
-        "direccion": "Parada #17 — Sector 1",
-        "demanda_kg": 20,
+        "id": 5,
+        "lat": 8.8717698,
+        "lon": -79.7244728,
+        "direccion": "Parada #5 — Sector 1",
+        "demanda_kg": 70,
         "completada": false
       },
       {
-        "id": 18,
-        "lat": 8.8687069,
-        "lon": -79.7250852,
-        "direccion": "Parada #18 — Sector 1",
-        "demanda_kg": 100,
+        "id": 6,
+        "lat": 8.8713352,
+        "lon": -79.7244568,
+        "direccion": "Parada #6 — Sector 1",
+        "demanda_kg": 65,
         "completada": false
       },
       {
-        "id": 19,
-        "lat": 8.8681914,
-        "lon": -79.7249351,
-        "direccion": "Parada #19 — Sector 1",
-        "demanda_kg": 125,
+        "id": 7,
+        "lat": 8.8712133,
+        "lon": -79.7262592,
+        "direccion": "Parada #7 — Sector 1",
+        "demanda_kg": 70,
         "completada": false
       },
       {
-        "id": 20,
-        "lat": 8.8678319,
-        "lon": -79.7246762,
-        "direccion": "Parada #20 — Sector 1",
-        "demanda_kg": 185,
+        "id": 8,
+        "lat": 8.8707733,
+        "lon": -79.7262216,
+        "direccion": "Parada #8 — Sector 1",
+        "demanda_kg": 65,
         "completada": false
       },
       {
-        "id": 21,
-        "lat": 8.8674675,
-        "lon": -79.7243276,
-        "direccion": "Parada #21 — Sector 1",
-        "demanda_kg": 145,
+        "id": 9,
+        "lat": 8.8708953,
+        "lon": -79.7244138,
+        "direccion": "Parada #9 — Sector 1",
+        "demanda_kg": 70,
         "completada": false
       },
       {
-        "id": 22,
-        "lat": 8.8668673,
-        "lon": -79.7237534,
-        "direccion": "Parada #22 — Sector 1",
-        "demanda_kg": 165,
+        "id": 10,
+        "lat": 8.8678582,
+        "lon": -79.7259051,
+        "direccion": "Parada #10 — Sector 1",
+        "demanda_kg": 75,
         "completada": false
       },
       {
-        "id": 23,
-        "lat": 8.8665322,
-        "lon": -79.7234328,
-        "direccion": "Parada #23 — Sector 1",
-        "demanda_kg": 165,
+        "id": 11,
+        "lat": 8.8673494,
+        "lon": -79.7257871,
+        "direccion": "Parada #11 — Sector 1",
+        "demanda_kg": 75,
         "completada": false
       },
       {
-        "id": 24,
-        "lat": 8.8662519,
-        "lon": -79.7231646,
-        "direccion": "Parada #24 — Sector 1",
-        "demanda_kg": 130,
-        "completada": false
-      },
-      {
-        "id": 25,
-        "lat": 8.8648529,
-        "lon": -79.7239471,
-        "direccion": "Parada #25 — Sector 1",
+        "id": 12,
+        "lat": 8.8690084,
+        "lon": -79.724092,
+        "direccion": "Parada #12 — Sector 1",
         "demanda_kg": 115,
         "completada": false
       },
       {
+        "id": 13,
+        "lat": 8.8669571,
+        "lon": -79.725594,
+        "direccion": "Parada #13 — Sector 1",
+        "demanda_kg": 85,
+        "completada": false
+      },
+      {
+        "id": 14,
+        "lat": 8.8686691,
+        "lon": -79.7237862,
+        "direccion": "Parada #14 — Sector 1",
+        "demanda_kg": 135,
+        "completada": false
+      },
+      {
+        "id": 15,
+        "lat": 8.8682875,
+        "lon": -79.7234965,
+        "direccion": "Parada #15 — Sector 1",
+        "demanda_kg": 115,
+        "completada": false
+      },
+      {
+        "id": 16,
+        "lat": 8.8665331,
+        "lon": -79.7253687,
+        "direccion": "Parada #16 — Sector 1",
+        "demanda_kg": 65,
+        "completada": false
+      },
+      {
+        "id": 17,
+        "lat": 8.8661674,
+        "lon": -79.7251219,
+        "direccion": "Parada #17 — Sector 1",
+        "demanda_kg": 80,
+        "completada": false
+      },
+      {
+        "id": 18,
+        "lat": 8.8680119,
+        "lon": -79.7231961,
+        "direccion": "Parada #18 — Sector 1",
+        "demanda_kg": 115,
+        "completada": false
+      },
+      {
+        "id": 19,
+        "lat": 8.8671777,
+        "lon": -79.7240503,
+        "direccion": "Parada #19 — Sector 1",
+        "demanda_kg": 150,
+        "completada": false
+      },
+      {
+        "id": 20,
+        "lat": 8.8658547,
+        "lon": -79.7248269,
+        "direccion": "Parada #20 — Sector 1",
+        "demanda_kg": 100,
+        "completada": false
+      },
+      {
+        "id": 21,
+        "lat": 8.8677045,
+        "lon": -79.7228582,
+        "direccion": "Parada #21 — Sector 1",
+        "demanda_kg": 105,
+        "completada": false
+      },
+      {
+        "id": 22,
+        "lat": 8.8673388,
+        "lon": -79.7225738,
+        "direccion": "Parada #22 — Sector 1",
+        "demanda_kg": 120,
+        "completada": false
+      },
+      {
+        "id": 23,
+        "lat": 8.8654996,
+        "lon": -79.7245426,
+        "direccion": "Parada #23 — Sector 1",
+        "demanda_kg": 95,
+        "completada": false
+      },
+      {
+        "id": 24,
+        "lat": 8.8651815,
+        "lon": -79.7242744,
+        "direccion": "Parada #24 — Sector 1",
+        "demanda_kg": 70,
+        "completada": false
+      },
+      {
+        "id": 25,
+        "lat": 8.8670632,
+        "lon": -79.7222842,
+        "direccion": "Parada #25 — Sector 1",
+        "demanda_kg": 110,
+        "completada": false
+      },
+      {
         "id": 26,
-        "lat": 8.8659082,
-        "lon": -79.7228358,
+        "lat": 8.8667239,
+        "lon": -79.7219784,
         "direccion": "Parada #26 — Sector 1",
-        "demanda_kg": 185,
+        "demanda_kg": 130,
         "completada": false
       },
       {
@@ -228,208 +228,208 @@
       },
       {
         "id": 28,
-        "lat": 8.8667239,
-        "lon": -79.7219784,
+        "lat": 8.8659082,
+        "lon": -79.7228358,
         "direccion": "Parada #28 — Sector 1",
-        "demanda_kg": 130,
+        "demanda_kg": 185,
         "completada": false
       },
       {
         "id": 29,
-        "lat": 8.8670632,
-        "lon": -79.7222842,
+        "lat": 8.8648529,
+        "lon": -79.7239471,
         "direccion": "Parada #29 — Sector 1",
-        "demanda_kg": 110,
+        "demanda_kg": 115,
         "completada": false
       },
       {
         "id": 30,
-        "lat": 8.8651815,
-        "lon": -79.7242744,
+        "lat": 8.8662519,
+        "lon": -79.7231646,
         "direccion": "Parada #30 — Sector 1",
-        "demanda_kg": 70,
+        "demanda_kg": 130,
         "completada": false
       },
       {
         "id": 31,
-        "lat": 8.8654996,
-        "lon": -79.7245426,
+        "lat": 8.8665322,
+        "lon": -79.7234328,
         "direccion": "Parada #31 — Sector 1",
-        "demanda_kg": 95,
+        "demanda_kg": 165,
         "completada": false
       },
       {
         "id": 32,
-        "lat": 8.8673388,
-        "lon": -79.7225738,
+        "lat": 8.8668673,
+        "lon": -79.7237534,
         "direccion": "Parada #32 — Sector 1",
-        "demanda_kg": 120,
+        "demanda_kg": 165,
         "completada": false
       },
       {
         "id": 33,
-        "lat": 8.8677045,
-        "lon": -79.7228582,
+        "lat": 8.8674675,
+        "lon": -79.7243276,
         "direccion": "Parada #33 — Sector 1",
-        "demanda_kg": 105,
+        "demanda_kg": 145,
         "completada": false
       },
       {
         "id": 34,
-        "lat": 8.8658547,
-        "lon": -79.7248269,
+        "lat": 8.8678319,
+        "lon": -79.7246762,
         "direccion": "Parada #34 — Sector 1",
-        "demanda_kg": 100,
+        "demanda_kg": 185,
         "completada": false
       },
       {
         "id": 35,
-        "lat": 8.8671777,
-        "lon": -79.7240503,
+        "lat": 8.8681914,
+        "lon": -79.7249351,
         "direccion": "Parada #35 — Sector 1",
-        "demanda_kg": 150,
+        "demanda_kg": 125,
         "completada": false
       },
       {
         "id": 36,
-        "lat": 8.8680119,
-        "lon": -79.7231961,
+        "lat": 8.8687069,
+        "lon": -79.7250852,
         "direccion": "Parada #36 — Sector 1",
-        "demanda_kg": 115,
+        "demanda_kg": 100,
         "completada": false
       },
       {
         "id": 37,
-        "lat": 8.8661674,
-        "lon": -79.7251219,
+        "lat": 8.8691976,
+        "lon": -79.7251366,
         "direccion": "Parada #37 — Sector 1",
-        "demanda_kg": 80,
+        "demanda_kg": 20,
         "completada": false
       },
       {
         "id": 38,
-        "lat": 8.8665331,
-        "lon": -79.7253687,
+        "lat": 8.8683458,
+        "lon": -79.7260339,
         "direccion": "Parada #38 — Sector 1",
-        "demanda_kg": 65,
+        "demanda_kg": 90,
         "completada": false
       },
       {
         "id": 39,
-        "lat": 8.8682875,
-        "lon": -79.7234965,
+        "lat": 8.8703175,
+        "lon": -79.7261841,
         "direccion": "Parada #39 — Sector 1",
-        "demanda_kg": 115,
+        "demanda_kg": 70,
         "completada": false
       },
       {
         "id": 40,
-        "lat": 8.8686691,
-        "lon": -79.7237862,
+        "lat": 8.8704871,
+        "lon": -79.7243924,
         "direccion": "Parada #40 — Sector 1",
-        "demanda_kg": 135,
+        "demanda_kg": 55,
         "completada": false
       },
       {
         "id": 41,
-        "lat": 8.8669571,
-        "lon": -79.725594,
+        "lat": 8.8704129,
+        "lon": -79.7252212,
         "direccion": "Parada #41 — Sector 1",
-        "demanda_kg": 85,
+        "demanda_kg": 110,
         "completada": false
       },
       {
         "id": 42,
-        "lat": 8.8690084,
-        "lon": -79.724092,
+        "lat": 8.8708437,
+        "lon": -79.7252407,
         "direccion": "Parada #42 — Sector 1",
-        "demanda_kg": 115,
+        "demanda_kg": 110,
         "completada": false
       },
       {
         "id": 43,
-        "lat": 8.8673494,
-        "lon": -79.7257871,
+        "lat": 8.8712625,
+        "lon": -79.7252754,
         "direccion": "Parada #43 — Sector 1",
-        "demanda_kg": 75,
+        "demanda_kg": 110,
         "completada": false
       },
       {
         "id": 44,
-        "lat": 8.8678582,
-        "lon": -79.7259051,
+        "lat": 8.8717177,
+        "lon": -79.7253153,
         "direccion": "Parada #44 — Sector 1",
-        "demanda_kg": 75,
+        "demanda_kg": 95,
         "completada": false
       },
       {
         "id": 45,
-        "lat": 8.8708953,
-        "lon": -79.7244138,
+        "lat": 8.8721808,
+        "lon": -79.7253479,
         "direccion": "Parada #45 — Sector 1",
-        "demanda_kg": 70,
+        "demanda_kg": 95,
         "completada": false
       },
       {
         "id": 46,
-        "lat": 8.8707733,
-        "lon": -79.7262216,
+        "lat": 8.8726347,
+        "lon": -79.7253845,
         "direccion": "Parada #46 — Sector 1",
-        "demanda_kg": 65,
+        "demanda_kg": 110,
         "completada": false
       },
       {
         "id": 47,
-        "lat": 8.8712133,
-        "lon": -79.7262592,
+        "lat": 8.8725383,
+        "lon": -79.7263879,
         "direccion": "Parada #47 — Sector 1",
-        "demanda_kg": 70,
+        "demanda_kg": 45,
         "completada": false
       },
       {
         "id": 48,
-        "lat": 8.8713352,
-        "lon": -79.7244568,
+        "lat": 8.8737945,
+        "lon": -79.7248269,
         "direccion": "Parada #48 — Sector 1",
-        "demanda_kg": 65,
+        "demanda_kg": 25,
         "completada": false
       },
       {
         "id": 49,
-        "lat": 8.8717698,
-        "lon": -79.7244728,
+        "lat": 8.8731267,
+        "lon": -79.7245962,
         "direccion": "Parada #49 — Sector 1",
-        "demanda_kg": 70,
+        "demanda_kg": 30,
         "completada": false
       },
       {
         "id": 50,
-        "lat": 8.8716638,
-        "lon": -79.7263236,
+        "lat": 8.8731126,
+        "lon": -79.7247783,
         "direccion": "Parada #50 — Sector 1",
-        "demanda_kg": 70,
+        "demanda_kg": 45,
         "completada": false
       },
       {
         "id": 51,
-        "lat": 8.8720931,
-        "lon": -79.726345,
+        "lat": 8.8730795,
+        "lon": -79.7252074,
         "direccion": "Parada #51 — Sector 1",
-        "demanda_kg": 70,
+        "demanda_kg": 75,
         "completada": false
       },
       {
         "id": 52,
-        "lat": 8.8722203,
-        "lon": -79.7245211,
+        "lat": 8.8737786,
+        "lon": -79.7252561,
         "direccion": "Parada #52 — Sector 1",
-        "demanda_kg": 80,
+        "demanda_kg": 40,
         "completada": false
       },
       {
         "id": 53,
-        "lat": 8.8726602,
-        "lon": -79.7245801,
+        "lat": 8.8730636,
+        "lon": -79.7254071,
         "direccion": "Parada #53 — Sector 1",
         "demanda_kg": 65,
         "completada": false
@@ -760,7 +760,7 @@
     "camion": 2,
     "conductor": "Conductor 2",
     "placa": "XX-0002",
-    "distancia_km": 34.15,
+    "distancia_km": 34.17,
     "paradas_total": 145,
     "carga_kg": 7870,
     "capacidad_kg": 8000,
@@ -777,1154 +777,1154 @@
       },
       {
         "id": 2,
-        "lat": 8.8733747,
-        "lon": -79.7215581,
+        "lat": 8.8742113,
+        "lon": -79.7209373,
         "direccion": "Parada #2 — Sector 2",
-        "demanda_kg": 60,
+        "demanda_kg": 15,
         "completada": false
       },
       {
         "id": 3,
-        "lat": 8.8719639,
-        "lon": -79.7209654,
+        "lat": 8.8738358,
+        "lon": -79.72078,
         "direccion": "Parada #3 — Sector 2",
-        "demanda_kg": 115,
+        "demanda_kg": 50,
         "completada": false
       },
       {
         "id": 4,
-        "lat": 8.8717918,
-        "lon": -79.7222708,
+        "lat": 8.8737289,
+        "lon": -79.7215267,
         "direccion": "Parada #4 — Sector 2",
-        "demanda_kg": 130,
+        "demanda_kg": 45,
         "completada": false
       },
       {
         "id": 5,
-        "lat": 8.8715264,
-        "lon": -79.7207467,
+        "lat": 8.8733174,
+        "lon": -79.7213527,
         "direccion": "Parada #5 — Sector 2",
-        "demanda_kg": 90,
+        "demanda_kg": 45,
         "completada": false
       },
       {
         "id": 6,
-        "lat": 8.8710568,
-        "lon": -79.720552,
+        "lat": 8.8734115,
+        "lon": -79.7207301,
         "direccion": "Parada #6 — Sector 2",
-        "demanda_kg": 145,
+        "demanda_kg": 55,
         "completada": false
       },
       {
         "id": 7,
-        "lat": 8.8684476,
-        "lon": -79.7226056,
+        "lat": 8.8729865,
+        "lon": -79.720656,
         "direccion": "Parada #7 — Sector 2",
-        "demanda_kg": 85,
-        "completada": false
-      },
-      {
-        "id": 8,
-        "lat": 8.8685328,
-        "lon": -79.723117,
-        "direccion": "Parada #8 — Sector 2",
-        "demanda_kg": 80,
-        "completada": false
-      },
-      {
-        "id": 9,
-        "lat": 8.869507,
-        "lon": -79.7239797,
-        "direccion": "Parada #9 — Sector 2",
-        "demanda_kg": 60,
-        "completada": false
-      },
-      {
-        "id": 10,
-        "lat": 8.868133,
-        "lon": -79.7227673,
-        "direccion": "Parada #10 — Sector 2",
-        "demanda_kg": 40,
-        "completada": false
-      },
-      {
-        "id": 11,
-        "lat": 8.8666515,
-        "lon": -79.7214717,
-        "direccion": "Parada #11 — Sector 2",
-        "demanda_kg": 30,
-        "completada": false
-      },
-      {
-        "id": 12,
-        "lat": 8.8674303,
-        "lon": -79.7221528,
-        "direccion": "Parada #12 — Sector 2",
         "demanda_kg": 70,
         "completada": false
       },
       {
-        "id": 13,
-        "lat": 8.8678679,
-        "lon": -79.7219083,
-        "direccion": "Parada #13 — Sector 2",
+        "id": 8,
+        "lat": 8.8729119,
+        "lon": -79.7212461,
+        "direccion": "Parada #8 — Sector 2",
         "demanda_kg": 50,
         "completada": false
       },
       {
-        "id": 14,
-        "lat": 8.8671848,
-        "lon": -79.7213046,
-        "direccion": "Parada #14 — Sector 2",
+        "id": 9,
+        "lat": 8.8725398,
+        "lon": -79.7205731,
+        "direccion": "Parada #9 — Sector 2",
+        "demanda_kg": 70,
+        "completada": false
+      },
+      {
+        "id": 10,
+        "lat": 8.8724905,
+        "lon": -79.7210137,
+        "direccion": "Parada #10 — Sector 2",
         "demanda_kg": 50,
         "completada": false
       },
       {
-        "id": 15,
-        "lat": 8.8683072,
-        "lon": -79.7201513,
-        "direccion": "Parada #15 — Sector 2",
-        "demanda_kg": 35,
+        "id": 11,
+        "lat": 8.8716091,
+        "lon": -79.7204325,
+        "direccion": "Parada #11 — Sector 2",
+        "demanda_kg": 140,
         "completada": false
       },
       {
-        "id": 16,
-        "lat": 8.8681425,
-        "lon": -79.7200892,
-        "direccion": "Parada #16 — Sector 2",
+        "id": 12,
+        "lat": 8.8703402,
+        "lon": -79.7192795,
+        "direccion": "Parada #12 — Sector 2",
         "demanda_kg": 20,
         "completada": false
       },
       {
+        "id": 13,
+        "lat": 8.8697618,
+        "lon": -79.7188627,
+        "direccion": "Parada #13 — Sector 2",
+        "demanda_kg": 45,
+        "completada": false
+      },
+      {
+        "id": 14,
+        "lat": 8.8693986,
+        "lon": -79.7183071,
+        "direccion": "Parada #14 — Sector 2",
+        "demanda_kg": 35,
+        "completada": false
+      },
+      {
+        "id": 15,
+        "lat": 8.8698498,
+        "lon": -79.7183939,
+        "direccion": "Parada #15 — Sector 2",
+        "demanda_kg": 115,
+        "completada": false
+      },
+      {
+        "id": 16,
+        "lat": 8.8702828,
+        "lon": -79.7184771,
+        "direccion": "Parada #16 — Sector 2",
+        "demanda_kg": 125,
+        "completada": false
+      },
+      {
         "id": 17,
-        "lat": 8.8684795,
-        "lon": -79.7196807,
+        "lat": 8.8707387,
+        "lon": -79.7185548,
         "direccion": "Parada #17 — Sector 2",
-        "demanda_kg": 30,
+        "demanda_kg": 95,
         "completada": false
       },
       {
         "id": 18,
-        "lat": 8.8686932,
-        "lon": -79.7202968,
+        "lat": 8.8711891,
+        "lon": -79.7186402,
         "direccion": "Parada #18 — Sector 2",
-        "demanda_kg": 60,
+        "demanda_kg": 120,
         "completada": false
       },
       {
         "id": 19,
-        "lat": 8.8688559,
-        "lon": -79.7198282,
+        "lat": 8.871132,
+        "lon": -79.7181675,
         "direccion": "Parada #19 — Sector 2",
-        "demanda_kg": 30,
+        "demanda_kg": 95,
         "completada": false
       },
       {
         "id": 20,
-        "lat": 8.8688723,
-        "lon": -79.7213471,
+        "lat": 8.8694592,
+        "lon": -79.717235,
         "direccion": "Parada #20 — Sector 2",
-        "demanda_kg": 25,
+        "demanda_kg": 135,
         "completada": false
       },
       {
         "id": 21,
-        "lat": 8.868066,
-        "lon": -79.7223171,
+        "lat": 8.87122,
+        "lon": -79.7177189,
         "direccion": "Parada #21 — Sector 2",
         "demanda_kg": 70,
         "completada": false
       },
       {
         "id": 22,
-        "lat": 8.8732644,
-        "lon": -79.7224449,
+        "lat": 8.8712623,
+        "lon": -79.7175448,
         "direccion": "Parada #22 — Sector 2",
-        "demanda_kg": 115,
+        "demanda_kg": 200,
         "completada": false
       },
       {
         "id": 23,
-        "lat": 8.8741925,
-        "lon": -79.7225002,
+        "lat": 8.8714976,
+        "lon": -79.7184695,
         "direccion": "Parada #23 — Sector 2",
-        "demanda_kg": 20,
+        "demanda_kg": 40,
         "completada": false
       },
       {
         "id": 24,
-        "lat": 8.8742113,
-        "lon": -79.7209373,
+        "lat": 8.871884,
+        "lon": -79.7163631,
         "direccion": "Parada #24 — Sector 2",
-        "demanda_kg": 15,
+        "demanda_kg": 105,
         "completada": false
       },
       {
         "id": 25,
-        "lat": 8.8738358,
-        "lon": -79.72078,
+        "lat": 8.8716356,
+        "lon": -79.7176201,
         "direccion": "Parada #25 — Sector 2",
-        "demanda_kg": 50,
+        "demanda_kg": 110,
         "completada": false
       },
       {
         "id": 26,
-        "lat": 8.8737289,
-        "lon": -79.7215267,
+        "lat": 8.8723071,
+        "lon": -79.7165797,
         "direccion": "Parada #26 — Sector 2",
-        "demanda_kg": 45,
+        "demanda_kg": 95,
         "completada": false
       },
       {
         "id": 27,
-        "lat": 8.8733174,
-        "lon": -79.7213527,
+        "lat": 8.8719309,
+        "lon": -79.7185515,
         "direccion": "Parada #27 — Sector 2",
-        "demanda_kg": 45,
+        "demanda_kg": 65,
         "completada": false
       },
       {
         "id": 28,
-        "lat": 8.8734115,
-        "lon": -79.7207301,
+        "lat": 8.8721167,
+        "lon": -79.7177061,
         "direccion": "Parada #28 — Sector 2",
-        "demanda_kg": 55,
+        "demanda_kg": 90,
         "completada": false
       },
       {
         "id": 29,
-        "lat": 8.8729865,
-        "lon": -79.720656,
+        "lat": 8.8725343,
+        "lon": -79.7177704,
         "direccion": "Parada #29 — Sector 2",
         "demanda_kg": 70,
         "completada": false
       },
       {
         "id": 30,
-        "lat": 8.8729119,
-        "lon": -79.7212461,
+        "lat": 8.8726782,
+        "lon": -79.7170949,
         "direccion": "Parada #30 — Sector 2",
-        "demanda_kg": 50,
+        "demanda_kg": 105,
         "completada": false
       },
       {
         "id": 31,
-        "lat": 8.8725398,
-        "lon": -79.7205731,
+        "lat": 8.8723837,
+        "lon": -79.7185431,
         "direccion": "Parada #31 — Sector 2",
-        "demanda_kg": 70,
+        "demanda_kg": 55,
         "completada": false
       },
       {
         "id": 32,
-        "lat": 8.8724905,
-        "lon": -79.7210137,
+        "lat": 8.87287,
+        "lon": -79.7185091,
         "direccion": "Parada #32 — Sector 2",
-        "demanda_kg": 50,
-        "completada": false
-      },
-      {
-        "id": 33,
-        "lat": 8.8716091,
-        "lon": -79.7204325,
-        "direccion": "Parada #33 — Sector 2",
-        "demanda_kg": 140,
-        "completada": false
-      },
-      {
-        "id": 34,
-        "lat": 8.8703402,
-        "lon": -79.7192795,
-        "direccion": "Parada #34 — Sector 2",
-        "demanda_kg": 20,
-        "completada": false
-      },
-      {
-        "id": 35,
-        "lat": 8.8697618,
-        "lon": -79.7188627,
-        "direccion": "Parada #35 — Sector 2",
         "demanda_kg": 45,
         "completada": false
       },
       {
+        "id": 33,
+        "lat": 8.8730293,
+        "lon": -79.717871,
+        "direccion": "Parada #33 — Sector 2",
+        "demanda_kg": 55,
+        "completada": false
+      },
+      {
+        "id": 34,
+        "lat": 8.8731291,
+        "lon": -79.7173816,
+        "direccion": "Parada #34 — Sector 2",
+        "demanda_kg": 25,
+        "completada": false
+      },
+      {
+        "id": 35,
+        "lat": 8.8732377,
+        "lon": -79.7172323,
+        "direccion": "Parada #35 — Sector 2",
+        "demanda_kg": 15,
+        "completada": false
+      },
+      {
         "id": 36,
-        "lat": 8.8693986,
-        "lon": -79.7183071,
+        "lat": 8.8730934,
+        "lon": -79.7170396,
         "direccion": "Parada #36 — Sector 2",
-        "demanda_kg": 35,
+        "demanda_kg": 25,
         "completada": false
       },
       {
         "id": 37,
-        "lat": 8.8698498,
-        "lon": -79.7183939,
+        "lat": 8.8721549,
+        "lon": -79.7157643,
         "direccion": "Parada #37 — Sector 2",
-        "demanda_kg": 115,
+        "demanda_kg": 10,
         "completada": false
       },
       {
         "id": 38,
-        "lat": 8.8702828,
-        "lon": -79.7184771,
+        "lat": 8.8709892,
+        "lon": -79.7155362,
         "direccion": "Parada #38 — Sector 2",
-        "demanda_kg": 125,
+        "demanda_kg": 5,
         "completada": false
       },
       {
         "id": 39,
-        "lat": 8.8707387,
-        "lon": -79.7185548,
+        "lat": 8.8717825,
+        "lon": -79.7151752,
         "direccion": "Parada #39 — Sector 2",
-        "demanda_kg": 95,
+        "demanda_kg": 50,
         "completada": false
       },
       {
         "id": 40,
-        "lat": 8.8711891,
-        "lon": -79.7186402,
+        "lat": 8.8697481,
+        "lon": -79.7123183,
         "direccion": "Parada #40 — Sector 2",
-        "demanda_kg": 120,
+        "demanda_kg": 110,
         "completada": false
       },
       {
         "id": 41,
-        "lat": 8.871132,
-        "lon": -79.7181675,
+        "lat": 8.8689222,
+        "lon": -79.7124937,
         "direccion": "Parada #41 — Sector 2",
         "demanda_kg": 95,
         "completada": false
       },
       {
         "id": 42,
-        "lat": 8.8694592,
-        "lon": -79.717235,
+        "lat": 8.8677295,
+        "lon": -79.7129667,
         "direccion": "Parada #42 — Sector 2",
-        "demanda_kg": 135,
+        "demanda_kg": 130,
         "completada": false
       },
       {
         "id": 43,
-        "lat": 8.87122,
-        "lon": -79.7177189,
+        "lat": 8.8666243,
+        "lon": -79.7126756,
         "direccion": "Parada #43 — Sector 2",
-        "demanda_kg": 70,
+        "demanda_kg": 50,
         "completada": false
       },
       {
         "id": 44,
-        "lat": 8.8712623,
-        "lon": -79.7175448,
+        "lat": 8.8667357,
+        "lon": -79.7121593,
         "direccion": "Parada #44 — Sector 2",
-        "demanda_kg": 200,
+        "demanda_kg": 10,
         "completada": false
       },
       {
         "id": 45,
-        "lat": 8.8714976,
-        "lon": -79.7184695,
+        "lat": 8.8669901,
+        "lon": -79.7124974,
         "direccion": "Parada #45 — Sector 2",
-        "demanda_kg": 40,
-        "completada": false
-      },
-      {
-        "id": 46,
-        "lat": 8.871884,
-        "lon": -79.7163631,
-        "direccion": "Parada #46 — Sector 2",
-        "demanda_kg": 105,
-        "completada": false
-      },
-      {
-        "id": 47,
-        "lat": 8.8716356,
-        "lon": -79.7176201,
-        "direccion": "Parada #47 — Sector 2",
-        "demanda_kg": 110,
-        "completada": false
-      },
-      {
-        "id": 48,
-        "lat": 8.8723071,
-        "lon": -79.7165797,
-        "direccion": "Parada #48 — Sector 2",
-        "demanda_kg": 95,
-        "completada": false
-      },
-      {
-        "id": 49,
-        "lat": 8.8719309,
-        "lon": -79.7185515,
-        "direccion": "Parada #49 — Sector 2",
-        "demanda_kg": 65,
-        "completada": false
-      },
-      {
-        "id": 50,
-        "lat": 8.8721167,
-        "lon": -79.7177061,
-        "direccion": "Parada #50 — Sector 2",
         "demanda_kg": 90,
         "completada": false
       },
       {
-        "id": 51,
-        "lat": 8.8725343,
-        "lon": -79.7177704,
-        "direccion": "Parada #51 — Sector 2",
+        "id": 46,
+        "lat": 8.8687009,
+        "lon": -79.7120095,
+        "direccion": "Parada #46 — Sector 2",
+        "demanda_kg": 75,
+        "completada": false
+      },
+      {
+        "id": 47,
+        "lat": 8.8695265,
+        "lon": -79.7117372,
+        "direccion": "Parada #47 — Sector 2",
         "demanda_kg": 70,
         "completada": false
       },
       {
-        "id": 52,
-        "lat": 8.8726782,
-        "lon": -79.7170949,
-        "direccion": "Parada #52 — Sector 2",
-        "demanda_kg": 105,
+        "id": 48,
+        "lat": 8.8697569,
+        "lon": -79.711674,
+        "direccion": "Parada #48 — Sector 2",
+        "demanda_kg": 35,
         "completada": false
       },
       {
-        "id": 53,
-        "lat": 8.8723837,
-        "lon": -79.7185431,
-        "direccion": "Parada #53 — Sector 2",
-        "demanda_kg": 55,
+        "id": 49,
+        "lat": 8.8697654,
+        "lon": -79.7116999,
+        "direccion": "Parada #49 — Sector 2",
+        "demanda_kg": 30,
         "completada": false
       },
       {
-        "id": 54,
-        "lat": 8.87287,
-        "lon": -79.7185091,
-        "direccion": "Parada #54 — Sector 2",
-        "demanda_kg": 45,
+        "id": 50,
+        "lat": 8.8696921,
+        "lon": -79.7117444,
+        "direccion": "Parada #50 — Sector 2",
+        "demanda_kg": 20,
         "completada": false
       },
       {
-        "id": 55,
-        "lat": 8.8730293,
-        "lon": -79.717871,
-        "direccion": "Parada #55 — Sector 2",
-        "demanda_kg": 55,
-        "completada": false
-      },
-      {
-        "id": 56,
-        "lat": 8.8731291,
-        "lon": -79.7173816,
-        "direccion": "Parada #56 — Sector 2",
-        "demanda_kg": 25,
-        "completada": false
-      },
-      {
-        "id": 57,
-        "lat": 8.8732377,
-        "lon": -79.7172323,
-        "direccion": "Parada #57 — Sector 2",
+        "id": 51,
+        "lat": 8.8696321,
+        "lon": -79.7117806,
+        "direccion": "Parada #51 — Sector 2",
         "demanda_kg": 15,
         "completada": false
       },
       {
+        "id": 52,
+        "lat": 8.8696013,
+        "lon": -79.7116962,
+        "direccion": "Parada #52 — Sector 2",
+        "demanda_kg": 5,
+        "completada": false
+      },
+      {
+        "id": 53,
+        "lat": 8.8701738,
+        "lon": -79.7113457,
+        "direccion": "Parada #53 — Sector 2",
+        "demanda_kg": 35,
+        "completada": false
+      },
+      {
+        "id": 54,
+        "lat": 8.870347,
+        "lon": -79.7112364,
+        "direccion": "Parada #54 — Sector 2",
+        "demanda_kg": 10,
+        "completada": false
+      },
+      {
+        "id": 55,
+        "lat": 8.8704943,
+        "lon": -79.7111435,
+        "direccion": "Parada #55 — Sector 2",
+        "demanda_kg": 20,
+        "completada": false
+      },
+      {
+        "id": 56,
+        "lat": 8.8718557,
+        "lon": -79.7097882,
+        "direccion": "Parada #56 — Sector 2",
+        "demanda_kg": 35,
+        "completada": false
+      },
+      {
+        "id": 57,
+        "lat": 8.8719544,
+        "lon": -79.7096293,
+        "direccion": "Parada #57 — Sector 2",
+        "demanda_kg": 10,
+        "completada": false
+      },
+      {
         "id": 58,
-        "lat": 8.8730934,
-        "lon": -79.7170396,
+        "lat": 8.8720515,
+        "lon": -79.7097486,
         "direccion": "Parada #58 — Sector 2",
-        "demanda_kg": 25,
+        "demanda_kg": 20,
         "completada": false
       },
       {
         "id": 59,
-        "lat": 8.8721549,
-        "lon": -79.7157643,
+        "lat": 8.8721617,
+        "lon": -79.7096861,
         "direccion": "Parada #59 — Sector 2",
         "demanda_kg": 10,
         "completada": false
       },
       {
         "id": 60,
-        "lat": 8.8709892,
-        "lon": -79.7155362,
+        "lat": 8.8722394,
+        "lon": -79.7096229,
         "direccion": "Parada #60 — Sector 2",
-        "demanda_kg": 5,
+        "demanda_kg": 135,
         "completada": false
       },
       {
         "id": 61,
-        "lat": 8.8717825,
-        "lon": -79.7151752,
+        "lat": 8.8737673,
+        "lon": -79.7102999,
         "direccion": "Parada #61 — Sector 2",
-        "demanda_kg": 50,
+        "demanda_kg": 235,
         "completada": false
       },
       {
         "id": 62,
-        "lat": 8.8697481,
-        "lon": -79.7123183,
+        "lat": 8.8723847,
+        "lon": -79.7101022,
         "direccion": "Parada #62 — Sector 2",
-        "demanda_kg": 110,
+        "demanda_kg": 140,
         "completada": false
       },
       {
         "id": 63,
-        "lat": 8.8689222,
-        "lon": -79.7124937,
+        "lat": 8.8722776,
+        "lon": -79.7100877,
         "direccion": "Parada #63 — Sector 2",
-        "demanda_kg": 95,
+        "demanda_kg": 60,
         "completada": false
       },
       {
         "id": 64,
-        "lat": 8.8677295,
-        "lon": -79.7129667,
+        "lat": 8.8717287,
+        "lon": -79.7105727,
         "direccion": "Parada #64 — Sector 2",
-        "demanda_kg": 130,
+        "demanda_kg": 55,
         "completada": false
       },
       {
         "id": 65,
-        "lat": 8.8666243,
-        "lon": -79.7126756,
+        "lat": 8.870699,
+        "lon": -79.7117398,
         "direccion": "Parada #65 — Sector 2",
-        "demanda_kg": 50,
+        "demanda_kg": 150,
         "completada": false
       },
       {
         "id": 66,
-        "lat": 8.8667357,
-        "lon": -79.7121593,
+        "lat": 8.8713257,
+        "lon": -79.7137525,
         "direccion": "Parada #66 — Sector 2",
-        "demanda_kg": 10,
-        "completada": false
-      },
-      {
-        "id": 67,
-        "lat": 8.8669901,
-        "lon": -79.7124974,
-        "direccion": "Parada #67 — Sector 2",
         "demanda_kg": 90,
         "completada": false
       },
       {
+        "id": 67,
+        "lat": 8.8719601,
+        "lon": -79.713558,
+        "direccion": "Parada #67 — Sector 2",
+        "demanda_kg": 55,
+        "completada": false
+      },
+      {
         "id": 68,
-        "lat": 8.8687009,
-        "lon": -79.7120095,
+        "lat": 8.872651,
+        "lon": -79.713411,
         "direccion": "Parada #68 — Sector 2",
-        "demanda_kg": 75,
+        "demanda_kg": 65,
         "completada": false
       },
       {
         "id": 69,
-        "lat": 8.8695265,
-        "lon": -79.7117372,
+        "lat": 8.8777409,
+        "lon": -79.7153506,
         "direccion": "Parada #69 — Sector 2",
-        "demanda_kg": 70,
-        "completada": false
-      },
-      {
-        "id": 70,
-        "lat": 8.8697569,
-        "lon": -79.711674,
-        "direccion": "Parada #70 — Sector 2",
-        "demanda_kg": 35,
-        "completada": false
-      },
-      {
-        "id": 71,
-        "lat": 8.8697654,
-        "lon": -79.7116999,
-        "direccion": "Parada #71 — Sector 2",
-        "demanda_kg": 30,
-        "completada": false
-      },
-      {
-        "id": 72,
-        "lat": 8.8696921,
-        "lon": -79.7117444,
-        "direccion": "Parada #72 — Sector 2",
-        "demanda_kg": 20,
-        "completada": false
-      },
-      {
-        "id": 73,
-        "lat": 8.8696321,
-        "lon": -79.7117806,
-        "direccion": "Parada #73 — Sector 2",
-        "demanda_kg": 15,
-        "completada": false
-      },
-      {
-        "id": 74,
-        "lat": 8.8696013,
-        "lon": -79.7116962,
-        "direccion": "Parada #74 — Sector 2",
         "demanda_kg": 5,
         "completada": false
       },
       {
-        "id": 75,
-        "lat": 8.8701738,
-        "lon": -79.7113457,
-        "direccion": "Parada #75 — Sector 2",
+        "id": 70,
+        "lat": 8.877635,
+        "lon": -79.715587,
+        "direccion": "Parada #70 — Sector 2",
+        "demanda_kg": 75,
+        "completada": false
+      },
+      {
+        "id": 71,
+        "lat": 8.878714,
+        "lon": -79.7160618,
+        "direccion": "Parada #71 — Sector 2",
+        "demanda_kg": 55,
+        "completada": false
+      },
+      {
+        "id": 72,
+        "lat": 8.8788303,
+        "lon": -79.7157957,
+        "direccion": "Parada #72 — Sector 2",
         "demanda_kg": 35,
         "completada": false
       },
       {
+        "id": 73,
+        "lat": 8.879814,
+        "lon": -79.7161692,
+        "direccion": "Parada #73 — Sector 2",
+        "demanda_kg": 40,
+        "completada": false
+      },
+      {
+        "id": 74,
+        "lat": 8.879476,
+        "lon": -79.7170267,
+        "direccion": "Parada #74 — Sector 2",
+        "demanda_kg": 35,
+        "completada": false
+      },
+      {
+        "id": 75,
+        "lat": 8.8800021,
+        "lon": -79.7162578,
+        "direccion": "Parada #75 — Sector 2",
+        "demanda_kg": 15,
+        "completada": false
+      },
+      {
         "id": 76,
-        "lat": 8.870347,
-        "lon": -79.7112364,
+        "lat": 8.8800024,
+        "lon": -79.7171822,
         "direccion": "Parada #76 — Sector 2",
-        "demanda_kg": 10,
+        "demanda_kg": 15,
         "completada": false
       },
       {
         "id": 77,
-        "lat": 8.8704943,
-        "lon": -79.7111435,
+        "lat": 8.8807707,
+        "lon": -79.7165769,
         "direccion": "Parada #77 — Sector 2",
         "demanda_kg": 20,
         "completada": false
       },
       {
         "id": 78,
-        "lat": 8.8718557,
-        "lon": -79.7097882,
+        "lat": 8.8810622,
+        "lon": -79.7166923,
         "direccion": "Parada #78 — Sector 2",
-        "demanda_kg": 35,
+        "demanda_kg": 10,
         "completada": false
       },
       {
         "id": 79,
-        "lat": 8.8719544,
-        "lon": -79.7096293,
+        "lat": 8.8804536,
+        "lon": -79.7174052,
         "direccion": "Parada #79 — Sector 2",
-        "demanda_kg": 10,
+        "demanda_kg": 25,
         "completada": false
       },
       {
         "id": 80,
-        "lat": 8.8720515,
-        "lon": -79.7097486,
+        "lat": 8.8809744,
+        "lon": -79.7175962,
         "direccion": "Parada #80 — Sector 2",
-        "demanda_kg": 20,
+        "demanda_kg": 25,
         "completada": false
       },
       {
         "id": 81,
-        "lat": 8.8721617,
-        "lon": -79.7096861,
+        "lat": 8.8805995,
+        "lon": -79.71701,
         "direccion": "Parada #81 — Sector 2",
-        "demanda_kg": 10,
+        "demanda_kg": 25,
         "completada": false
       },
       {
         "id": 82,
-        "lat": 8.8722394,
-        "lon": -79.7096229,
+        "lat": 8.8803175,
+        "lon": -79.7163865,
         "direccion": "Parada #82 — Sector 2",
-        "demanda_kg": 135,
-        "completada": false
-      },
-      {
-        "id": 83,
-        "lat": 8.8737673,
-        "lon": -79.7102999,
-        "direccion": "Parada #83 — Sector 2",
-        "demanda_kg": 235,
-        "completada": false
-      },
-      {
-        "id": 84,
-        "lat": 8.8723847,
-        "lon": -79.7101022,
-        "direccion": "Parada #84 — Sector 2",
-        "demanda_kg": 140,
-        "completada": false
-      },
-      {
-        "id": 85,
-        "lat": 8.8722776,
-        "lon": -79.7100877,
-        "direccion": "Parada #85 — Sector 2",
-        "demanda_kg": 60,
-        "completada": false
-      },
-      {
-        "id": 86,
-        "lat": 8.8717287,
-        "lon": -79.7105727,
-        "direccion": "Parada #86 — Sector 2",
-        "demanda_kg": 55,
-        "completada": false
-      },
-      {
-        "id": 87,
-        "lat": 8.870699,
-        "lon": -79.7117398,
-        "direccion": "Parada #87 — Sector 2",
-        "demanda_kg": 150,
-        "completada": false
-      },
-      {
-        "id": 88,
-        "lat": 8.8713257,
-        "lon": -79.7137525,
-        "direccion": "Parada #88 — Sector 2",
-        "demanda_kg": 90,
-        "completada": false
-      },
-      {
-        "id": 89,
-        "lat": 8.8719601,
-        "lon": -79.713558,
-        "direccion": "Parada #89 — Sector 2",
-        "demanda_kg": 55,
-        "completada": false
-      },
-      {
-        "id": 90,
-        "lat": 8.872651,
-        "lon": -79.713411,
-        "direccion": "Parada #90 — Sector 2",
-        "demanda_kg": 65,
-        "completada": false
-      },
-      {
-        "id": 91,
-        "lat": 8.8777409,
-        "lon": -79.7153506,
-        "direccion": "Parada #91 — Sector 2",
-        "demanda_kg": 5,
-        "completada": false
-      },
-      {
-        "id": 92,
-        "lat": 8.877635,
-        "lon": -79.715587,
-        "direccion": "Parada #92 — Sector 2",
-        "demanda_kg": 75,
-        "completada": false
-      },
-      {
-        "id": 93,
-        "lat": 8.878714,
-        "lon": -79.7160618,
-        "direccion": "Parada #93 — Sector 2",
-        "demanda_kg": 55,
-        "completada": false
-      },
-      {
-        "id": 94,
-        "lat": 8.8788303,
-        "lon": -79.7157957,
-        "direccion": "Parada #94 — Sector 2",
         "demanda_kg": 35,
         "completada": false
       },
       {
+        "id": 83,
+        "lat": 8.8801211,
+        "lon": -79.7158849,
+        "direccion": "Parada #83 — Sector 2",
+        "demanda_kg": 20,
+        "completada": false
+      },
+      {
+        "id": 84,
+        "lat": 8.8793211,
+        "lon": -79.7159842,
+        "direccion": "Parada #84 — Sector 2",
+        "demanda_kg": 50,
+        "completada": false
+      },
+      {
+        "id": 85,
+        "lat": 8.879002,
+        "lon": -79.7168234,
+        "direccion": "Parada #85 — Sector 2",
+        "demanda_kg": 25,
+        "completada": false
+      },
+      {
+        "id": 86,
+        "lat": 8.8784191,
+        "lon": -79.7156328,
+        "direccion": "Parada #86 — Sector 2",
+        "demanda_kg": 50,
+        "completada": false
+      },
+      {
+        "id": 87,
+        "lat": 8.8785842,
+        "lon": -79.7152197,
+        "direccion": "Parada #87 — Sector 2",
+        "demanda_kg": 20,
+        "completada": false
+      },
+      {
+        "id": 88,
+        "lat": 8.8779707,
+        "lon": -79.7150508,
+        "direccion": "Parada #88 — Sector 2",
+        "demanda_kg": 55,
+        "completada": false
+      },
+      {
+        "id": 89,
+        "lat": 8.8778279,
+        "lon": -79.7153827,
+        "direccion": "Parada #89 — Sector 2",
+        "demanda_kg": 25,
+        "completada": false
+      },
+      {
+        "id": 90,
+        "lat": 8.87694735773,
+        "lon": -79.71570336842,
+        "direccion": "Parada #90 — Sector 2",
+        "demanda_kg": 45,
+        "completada": false
+      },
+      {
+        "id": 91,
+        "lat": 8.87699262331,
+        "lon": -79.71557036001,
+        "direccion": "Parada #91 — Sector 2",
+        "demanda_kg": 20,
+        "completada": false
+      },
+      {
+        "id": 92,
+        "lat": 8.8771813,
+        "lon": -79.7151291,
+        "direccion": "Parada #92 — Sector 2",
+        "demanda_kg": 30,
+        "completada": false
+      },
+      {
+        "id": 93,
+        "lat": 8.8765967358,
+        "lon": -79.71540147316,
+        "direccion": "Parada #93 — Sector 2",
+        "demanda_kg": 15,
+        "completada": false
+      },
+      {
+        "id": 94,
+        "lat": 8.87664782168,
+        "lon": -79.7152775165,
+        "direccion": "Parada #94 — Sector 2",
+        "demanda_kg": 15,
+        "completada": false
+      },
+      {
         "id": 95,
-        "lat": 8.879814,
-        "lon": -79.7161692,
+        "lat": 8.8767828,
+        "lon": -79.71495,
         "direccion": "Parada #95 — Sector 2",
         "demanda_kg": 40,
         "completada": false
       },
       {
         "id": 96,
-        "lat": 8.879476,
-        "lon": -79.7170267,
+        "lat": 8.8759837,
+        "lon": -79.7146532,
         "direccion": "Parada #96 — Sector 2",
-        "demanda_kg": 35,
+        "demanda_kg": 40,
         "completada": false
       },
       {
         "id": 97,
-        "lat": 8.8800021,
-        "lon": -79.7162578,
+        "lat": 8.8760942,
+        "lon": -79.7150252,
         "direccion": "Parada #97 — Sector 2",
-        "demanda_kg": 15,
-        "completada": false
-      },
-      {
-        "id": 98,
-        "lat": 8.8800024,
-        "lon": -79.7171822,
-        "direccion": "Parada #98 — Sector 2",
-        "demanda_kg": 15,
-        "completada": false
-      },
-      {
-        "id": 99,
-        "lat": 8.8807707,
-        "lon": -79.7165769,
-        "direccion": "Parada #99 — Sector 2",
-        "demanda_kg": 20,
-        "completada": false
-      },
-      {
-        "id": 100,
-        "lat": 8.8810622,
-        "lon": -79.7166923,
-        "direccion": "Parada #100 — Sector 2",
-        "demanda_kg": 10,
-        "completada": false
-      },
-      {
-        "id": 101,
-        "lat": 8.8804536,
-        "lon": -79.7174052,
-        "direccion": "Parada #101 — Sector 2",
-        "demanda_kg": 25,
-        "completada": false
-      },
-      {
-        "id": 102,
-        "lat": 8.8809744,
-        "lon": -79.7175962,
-        "direccion": "Parada #102 — Sector 2",
-        "demanda_kg": 25,
-        "completada": false
-      },
-      {
-        "id": 103,
-        "lat": 8.8805995,
-        "lon": -79.71701,
-        "direccion": "Parada #103 — Sector 2",
-        "demanda_kg": 25,
-        "completada": false
-      },
-      {
-        "id": 104,
-        "lat": 8.8803175,
-        "lon": -79.7163865,
-        "direccion": "Parada #104 — Sector 2",
         "demanda_kg": 35,
         "completada": false
       },
       {
+        "id": 98,
+        "lat": 8.8762385,
+        "lon": -79.715646,
+        "direccion": "Parada #98 — Sector 2",
+        "demanda_kg": 20,
+        "completada": false
+      },
+      {
+        "id": 99,
+        "lat": 8.8762907,
+        "lon": -79.71584,
+        "direccion": "Parada #99 — Sector 2",
+        "demanda_kg": 25,
+        "completada": false
+      },
+      {
+        "id": 100,
+        "lat": 8.876352,
+        "lon": -79.7160924,
+        "direccion": "Parada #100 — Sector 2",
+        "demanda_kg": 15,
+        "completada": false
+      },
+      {
+        "id": 101,
+        "lat": 8.8764408,
+        "lon": -79.7163758,
+        "direccion": "Parada #101 — Sector 2",
+        "demanda_kg": 50,
+        "completada": false
+      },
+      {
+        "id": 102,
+        "lat": 8.8753023,
+        "lon": -79.7173111,
+        "direccion": "Parada #102 — Sector 2",
+        "demanda_kg": 50,
+        "completada": false
+      },
+      {
+        "id": 103,
+        "lat": 8.8751504,
+        "lon": -79.7166845,
+        "direccion": "Parada #103 — Sector 2",
+        "demanda_kg": 105,
+        "completada": false
+      },
+      {
+        "id": 104,
+        "lat": 8.8750279,
+        "lon": -79.7160986,
+        "direccion": "Parada #104 — Sector 2",
+        "demanda_kg": 55,
+        "completada": false
+      },
+      {
         "id": 105,
-        "lat": 8.8801211,
-        "lon": -79.7158849,
+        "lat": 8.8749985,
+        "lon": -79.7159566,
         "direccion": "Parada #105 — Sector 2",
         "demanda_kg": 20,
         "completada": false
       },
       {
         "id": 106,
-        "lat": 8.8793211,
-        "lon": -79.7159842,
+        "lat": 8.8748348,
+        "lon": -79.7153613,
         "direccion": "Parada #106 — Sector 2",
-        "demanda_kg": 50,
+        "demanda_kg": 20,
         "completada": false
       },
       {
         "id": 107,
-        "lat": 8.879002,
-        "lon": -79.7168234,
+        "lat": 8.8747442,
+        "lon": -79.7152233,
         "direccion": "Parada #107 — Sector 2",
-        "demanda_kg": 25,
+        "demanda_kg": 20,
         "completada": false
       },
       {
         "id": 108,
-        "lat": 8.8784191,
-        "lon": -79.7156328,
+        "lat": 8.8749426,
+        "lon": -79.7142292,
         "direccion": "Parada #108 — Sector 2",
-        "demanda_kg": 50,
+        "demanda_kg": 85,
         "completada": false
       },
       {
         "id": 109,
-        "lat": 8.8785842,
-        "lon": -79.7152197,
+        "lat": 8.8734388,
+        "lon": -79.7134483,
         "direccion": "Parada #109 — Sector 2",
-        "demanda_kg": 20,
+        "demanda_kg": 60,
         "completada": false
       },
       {
         "id": 110,
-        "lat": 8.8779707,
-        "lon": -79.7150508,
+        "lat": 8.8742995,
+        "lon": -79.7143884,
         "direccion": "Parada #110 — Sector 2",
-        "demanda_kg": 55,
+        "demanda_kg": 70,
         "completada": false
       },
       {
         "id": 111,
-        "lat": 8.8778279,
-        "lon": -79.7153827,
+        "lat": 8.8734369,
+        "lon": -79.7145566,
         "direccion": "Parada #111 — Sector 2",
-        "demanda_kg": 25,
+        "demanda_kg": 65,
         "completada": false
       },
       {
         "id": 112,
-        "lat": 8.87694735773,
-        "lon": -79.71570336842,
+        "lat": 8.8734366,
+        "lon": -79.7147342,
         "direccion": "Parada #112 — Sector 2",
-        "demanda_kg": 45,
-        "completada": false
-      },
-      {
-        "id": 113,
-        "lat": 8.87699262331,
-        "lon": -79.71557036001,
-        "direccion": "Parada #113 — Sector 2",
-        "demanda_kg": 20,
-        "completada": false
-      },
-      {
-        "id": 114,
-        "lat": 8.8771813,
-        "lon": -79.7151291,
-        "direccion": "Parada #114 — Sector 2",
-        "demanda_kg": 30,
-        "completada": false
-      },
-      {
-        "id": 115,
-        "lat": 8.8765967358,
-        "lon": -79.71540147316,
-        "direccion": "Parada #115 — Sector 2",
-        "demanda_kg": 15,
-        "completada": false
-      },
-      {
-        "id": 116,
-        "lat": 8.87664782168,
-        "lon": -79.7152775165,
-        "direccion": "Parada #116 — Sector 2",
-        "demanda_kg": 15,
-        "completada": false
-      },
-      {
-        "id": 117,
-        "lat": 8.8767828,
-        "lon": -79.71495,
-        "direccion": "Parada #117 — Sector 2",
-        "demanda_kg": 40,
-        "completada": false
-      },
-      {
-        "id": 118,
-        "lat": 8.8759837,
-        "lon": -79.7146532,
-        "direccion": "Parada #118 — Sector 2",
-        "demanda_kg": 40,
-        "completada": false
-      },
-      {
-        "id": 119,
-        "lat": 8.8760942,
-        "lon": -79.7150252,
-        "direccion": "Parada #119 — Sector 2",
         "demanda_kg": 35,
         "completada": false
       },
       {
-        "id": 120,
-        "lat": 8.8762385,
-        "lon": -79.715646,
-        "direccion": "Parada #120 — Sector 2",
+        "id": 113,
+        "lat": 8.8734325,
+        "lon": -79.715271,
+        "direccion": "Parada #113 — Sector 2",
+        "demanda_kg": 30,
+        "completada": false
+      },
+      {
+        "id": 114,
+        "lat": 8.8726884,
+        "lon": -79.7153872,
+        "direccion": "Parada #114 — Sector 2",
+        "demanda_kg": 80,
+        "completada": false
+      },
+      {
+        "id": 115,
+        "lat": 8.8734794,
+        "lon": -79.7163691,
+        "direccion": "Parada #115 — Sector 2",
         "demanda_kg": 20,
         "completada": false
       },
       {
-        "id": 121,
-        "lat": 8.8762907,
-        "lon": -79.71584,
-        "direccion": "Parada #121 — Sector 2",
-        "demanda_kg": 25,
+        "id": 116,
+        "lat": 8.8735609,
+        "lon": -79.7164755,
+        "direccion": "Parada #116 — Sector 2",
+        "demanda_kg": 30,
         "completada": false
       },
       {
-        "id": 122,
-        "lat": 8.876352,
-        "lon": -79.7160924,
-        "direccion": "Parada #122 — Sector 2",
+        "id": 117,
+        "lat": 8.8739946,
+        "lon": -79.7170242,
+        "direccion": "Parada #117 — Sector 2",
+        "demanda_kg": 75,
+        "completada": false
+      },
+      {
+        "id": 118,
+        "lat": 8.8742459,
+        "lon": -79.7175795,
+        "direccion": "Parada #118 — Sector 2",
+        "demanda_kg": 45,
+        "completada": false
+      },
+      {
+        "id": 119,
+        "lat": 8.8735237,
+        "lon": -79.7177444,
+        "direccion": "Parada #119 — Sector 2",
         "demanda_kg": 15,
         "completada": false
       },
       {
+        "id": 120,
+        "lat": 8.8747192,
+        "lon": -79.7190325,
+        "direccion": "Parada #120 — Sector 2",
+        "demanda_kg": 5,
+        "completada": false
+      },
+      {
+        "id": 121,
+        "lat": 8.8738689,
+        "lon": -79.7187446,
+        "direccion": "Parada #121 — Sector 2",
+        "demanda_kg": 30,
+        "completada": false
+      },
+      {
+        "id": 122,
+        "lat": 8.8728992,
+        "lon": -79.7191061,
+        "direccion": "Parada #122 — Sector 2",
+        "demanda_kg": 10,
+        "completada": false
+      },
+      {
         "id": 123,
-        "lat": 8.8764408,
-        "lon": -79.7163758,
+        "lat": 8.8738492,
+        "lon": -79.7195107,
         "direccion": "Parada #123 — Sector 2",
         "demanda_kg": 50,
         "completada": false
       },
       {
         "id": 124,
-        "lat": 8.8753023,
-        "lon": -79.7173111,
+        "lat": 8.8733747,
+        "lon": -79.7215581,
         "direccion": "Parada #124 — Sector 2",
-        "demanda_kg": 50,
+        "demanda_kg": 60,
         "completada": false
       },
       {
         "id": 125,
-        "lat": 8.8751504,
-        "lon": -79.7166845,
+        "lat": 8.8719639,
+        "lon": -79.7209654,
         "direccion": "Parada #125 — Sector 2",
-        "demanda_kg": 105,
+        "demanda_kg": 115,
         "completada": false
       },
       {
         "id": 126,
-        "lat": 8.8750279,
-        "lon": -79.7160986,
+        "lat": 8.8717918,
+        "lon": -79.7222708,
         "direccion": "Parada #126 — Sector 2",
-        "demanda_kg": 55,
+        "demanda_kg": 130,
         "completada": false
       },
       {
         "id": 127,
-        "lat": 8.8749985,
-        "lon": -79.7159566,
+        "lat": 8.8715264,
+        "lon": -79.7207467,
         "direccion": "Parada #127 — Sector 2",
-        "demanda_kg": 20,
+        "demanda_kg": 90,
         "completada": false
       },
       {
         "id": 128,
-        "lat": 8.8748348,
-        "lon": -79.7153613,
+        "lat": 8.8710568,
+        "lon": -79.720552,
         "direccion": "Parada #128 — Sector 2",
-        "demanda_kg": 20,
+        "demanda_kg": 145,
         "completada": false
       },
       {
         "id": 129,
-        "lat": 8.8747442,
-        "lon": -79.7152233,
+        "lat": 8.8684476,
+        "lon": -79.7226056,
         "direccion": "Parada #129 — Sector 2",
-        "demanda_kg": 20,
-        "completada": false
-      },
-      {
-        "id": 130,
-        "lat": 8.8749426,
-        "lon": -79.7142292,
-        "direccion": "Parada #130 — Sector 2",
         "demanda_kg": 85,
         "completada": false
       },
       {
+        "id": 130,
+        "lat": 8.8685328,
+        "lon": -79.723117,
+        "direccion": "Parada #130 — Sector 2",
+        "demanda_kg": 80,
+        "completada": false
+      },
+      {
         "id": 131,
-        "lat": 8.8734388,
-        "lon": -79.7134483,
+        "lat": 8.869507,
+        "lon": -79.7239797,
         "direccion": "Parada #131 — Sector 2",
         "demanda_kg": 60,
         "completada": false
       },
       {
         "id": 132,
-        "lat": 8.8742995,
-        "lon": -79.7143884,
+        "lat": 8.868133,
+        "lon": -79.7227673,
         "direccion": "Parada #132 — Sector 2",
-        "demanda_kg": 70,
+        "demanda_kg": 40,
         "completada": false
       },
       {
         "id": 133,
-        "lat": 8.8734369,
-        "lon": -79.7145566,
+        "lat": 8.8666515,
+        "lon": -79.7214717,
         "direccion": "Parada #133 — Sector 2",
-        "demanda_kg": 65,
+        "demanda_kg": 30,
         "completada": false
       },
       {
         "id": 134,
-        "lat": 8.8734366,
-        "lon": -79.7147342,
+        "lat": 8.8674303,
+        "lon": -79.7221528,
         "direccion": "Parada #134 — Sector 2",
-        "demanda_kg": 35,
+        "demanda_kg": 70,
         "completada": false
       },
       {
         "id": 135,
-        "lat": 8.8734325,
-        "lon": -79.715271,
+        "lat": 8.8678679,
+        "lon": -79.7219083,
         "direccion": "Parada #135 — Sector 2",
-        "demanda_kg": 30,
+        "demanda_kg": 50,
         "completada": false
       },
       {
         "id": 136,
-        "lat": 8.8726884,
-        "lon": -79.7153872,
+        "lat": 8.8671848,
+        "lon": -79.7213046,
         "direccion": "Parada #136 — Sector 2",
-        "demanda_kg": 80,
+        "demanda_kg": 50,
         "completada": false
       },
       {
         "id": 137,
-        "lat": 8.8734794,
-        "lon": -79.7163691,
+        "lat": 8.8683072,
+        "lon": -79.7201513,
         "direccion": "Parada #137 — Sector 2",
-        "demanda_kg": 20,
+        "demanda_kg": 35,
         "completada": false
       },
       {
         "id": 138,
-        "lat": 8.8735609,
-        "lon": -79.7164755,
+        "lat": 8.8681425,
+        "lon": -79.7200892,
         "direccion": "Parada #138 — Sector 2",
-        "demanda_kg": 30,
+        "demanda_kg": 20,
         "completada": false
       },
       {
         "id": 139,
-        "lat": 8.8739946,
-        "lon": -79.7170242,
+        "lat": 8.8684795,
+        "lon": -79.7196807,
         "direccion": "Parada #139 — Sector 2",
-        "demanda_kg": 75,
-        "completada": false
-      },
-      {
-        "id": 140,
-        "lat": 8.8742459,
-        "lon": -79.7175795,
-        "direccion": "Parada #140 — Sector 2",
-        "demanda_kg": 45,
-        "completada": false
-      },
-      {
-        "id": 141,
-        "lat": 8.8735237,
-        "lon": -79.7177444,
-        "direccion": "Parada #141 — Sector 2",
-        "demanda_kg": 15,
-        "completada": false
-      },
-      {
-        "id": 142,
-        "lat": 8.8747192,
-        "lon": -79.7190325,
-        "direccion": "Parada #142 — Sector 2",
-        "demanda_kg": 5,
-        "completada": false
-      },
-      {
-        "id": 143,
-        "lat": 8.8738689,
-        "lon": -79.7187446,
-        "direccion": "Parada #143 — Sector 2",
         "demanda_kg": 30,
         "completada": false
       },
       {
+        "id": 140,
+        "lat": 8.8686932,
+        "lon": -79.7202968,
+        "direccion": "Parada #140 — Sector 2",
+        "demanda_kg": 60,
+        "completada": false
+      },
+      {
+        "id": 141,
+        "lat": 8.8688559,
+        "lon": -79.7198282,
+        "direccion": "Parada #141 — Sector 2",
+        "demanda_kg": 30,
+        "completada": false
+      },
+      {
+        "id": 142,
+        "lat": 8.8688723,
+        "lon": -79.7213471,
+        "direccion": "Parada #142 — Sector 2",
+        "demanda_kg": 25,
+        "completada": false
+      },
+      {
+        "id": 143,
+        "lat": 8.868066,
+        "lon": -79.7223171,
+        "direccion": "Parada #143 — Sector 2",
+        "demanda_kg": 70,
+        "completada": false
+      },
+      {
         "id": 144,
-        "lat": 8.8728992,
-        "lon": -79.7191061,
+        "lat": 8.8732644,
+        "lon": -79.7224449,
         "direccion": "Parada #144 — Sector 2",
-        "demanda_kg": 10,
+        "demanda_kg": 115,
         "completada": false
       },
       {
         "id": 145,
-        "lat": 8.8738492,
-        "lon": -79.7195107,
+        "lat": 8.8741925,
+        "lon": -79.7225002,
         "direccion": "Parada #145 — Sector 2",
-        "demanda_kg": 50,
+        "demanda_kg": 20,
         "completada": false
       }
     ]

@@ -6,8 +6,17 @@
       "lat": 8.872211,
       "lon": -79.725594,
       "camion_id": "1",
-      "notificado_previa": null,
+      "notificado_previa": "2026-06-07",
       "notificado_proximidad": "2026-06-07"
+    },
+    {
+      "chat_id": 6104363449,
+      "nombre": "Mimi",
+      "lat": 8.872487,
+      "lon": -79.718278,
+      "camion_id": "2",
+      "notificado_previa": "2026-06-07",
+      "notificado_proximidad": null
     }
   ]
 }

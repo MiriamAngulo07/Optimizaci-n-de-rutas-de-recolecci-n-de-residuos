@@ -5,4 +5,4 @@ for cid in data:
     for p in data[cid]["paradas"]:
         p["completada"] = False
 json.dump(data, open(RUTAS, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-print("✅ Jornada reseteada: todas las paradas sin completar.")
+print("Jornada reseteada: todas las paradas sin completar.")
