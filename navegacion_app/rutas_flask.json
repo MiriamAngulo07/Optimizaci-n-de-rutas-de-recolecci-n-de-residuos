@@ -773,7 +773,7 @@
         "lon": -79.7388687,
         "direccion": "Parada #1 — Sector 2",
         "demanda_kg": 5,
-        "completada": false
+        "completada": true
       },
       {
         "id": 2,
@@ -781,7 +781,7 @@
         "lon": -79.7209373,
         "direccion": "Parada #2 — Sector 2",
         "demanda_kg": 15,
-        "completada": false
+        "completada": true
       },
       {
         "id": 3,
@@ -789,7 +789,7 @@
         "lon": -79.72078,
         "direccion": "Parada #3 — Sector 2",
         "demanda_kg": 50,
-        "completada": false
+        "completada": true
       },
       {
         "id": 4,
@@ -797,7 +797,7 @@
         "lon": -79.7215267,
         "direccion": "Parada #4 — Sector 2",
         "demanda_kg": 45,
-        "completada": false
+        "completada": true
       },
       {
         "id": 5,
@@ -805,7 +805,7 @@
         "lon": -79.7213527,
         "direccion": "Parada #5 — Sector 2",
         "demanda_kg": 45,
-        "completada": false
+        "completada": true
       },
       {
         "id": 6,
